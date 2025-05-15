@@ -12,7 +12,7 @@ const GameCard: React.FC<Game> = ({ id, img_path, name }) => {
                         source={{
                             uri: img_path
                                 ? `https://tst.ludice.app${img_path}`
-                                : 'https://via.placeholder.com/300x300.png?text=No+Image',
+                                : 'https://placeholder.co/600x400/1a1a1a/ffffff.png',
                         }}
                         className="w-full aspect-square"
                         resizeMode="cover"
