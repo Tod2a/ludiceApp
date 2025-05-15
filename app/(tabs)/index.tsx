@@ -1,6 +1,8 @@
+import GameCard from "@/components/GameCard";
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
+import { Game } from "@/interfaces/interfaces";
 import { fetchGames } from "@/services/api";
 import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
@@ -42,10 +44,10 @@ export default function Index() {
             <>
               <FlatList
                 data={games?.data || []}
-                renderItem={({ item }) => (
-                  <Text className="text-white text-sm">{item.name}</Text>
+                renderItem={({ item }: { item: Game }) => (
+                  <GameCard {...item} />
                 )}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.id.toString()}
                 numColumns={2}
                 columnWrapperStyle={{
                   justifyContent: "flex-start",
