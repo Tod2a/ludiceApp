@@ -17,7 +17,7 @@ const GameCard: React.FC<Game> = ({ id, img_path, name }) => {
                         className="w-full aspect-square"
                         resizeMode="cover"
                     />
-                    <Text className="text-white text-base font-semibold px-2 py-2">
+                    <Text className="text-white text-base font-semibold px-2 py-2" numberOfLines={1}>
                         {name}
                     </Text>
                 </TouchableOpacity>
