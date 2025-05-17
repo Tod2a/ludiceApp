@@ -35,7 +35,7 @@ export default function Index() {
         ) : gamesError ? (
           <Text className="text-lg text-white font-bold mt-5 mb-3">Error: {gamesError?.message}</Text>
         ) :
-          <View className="flex-1 mt-5">
+          <View className="flex-1 mt-5 mb-2">
             <SearchBar
               onPress={() => router.push("/search")}
               placeholder="Rechercher un jeu"

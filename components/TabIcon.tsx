@@ -12,7 +12,7 @@ export default function TabIcon({ focused, icon, title }: TabIconProps) {
     }
     return (
         <View className="items-center justify-center px-4 py-2 rounded-full">
-            <Image source={icon} className="w-5 h-5" style={{ tintColor: '#A8B5DB' }} />
+            <Image source={icon} className="w-5 h-5" style={{ tintColor: '#C1BA3E' }} />
         </View>
     );
 }

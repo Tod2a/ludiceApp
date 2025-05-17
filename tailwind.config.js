@@ -14,6 +14,9 @@ module.exports = {
         green: {
           100: '#b5f494',
         },
+        yellow: {
+          100: "#fafaf0"
+        },
         light: {
           100: '#D6C6FF',
           200: '#A8B5DB',
@@ -21,7 +24,7 @@ module.exports = {
         },
         dark: {
           100: '#221F3D',
-          200: '#0F0D23',
+          200: '#010E02',
         },
         accent: '#AB8BFF'
       }
