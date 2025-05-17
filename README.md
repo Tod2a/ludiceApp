@@ -1,50 +1,74 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<p align="center">
+  <img src="https://ludice.app/logo.png" width="200" alt="Ludice Logo">
+</p>
 
-## Get started
+<h1 align="center">📱 LudiceMobile – Companion App for Board Game Enthusiasts</h1>
 
-1. Install dependencies
+<p align="center">
+  A cross-platform mobile application built with <a href="https://expo.dev">Expo</a> and <a href="https://reactnative.dev/">React Native</a>.<br>
+  Manage your board game collection, track scores, and much more – right from your pocket!
+</p>
+
+---
+
+## 🚀 Getting Started
+
+1. **Install dependencies**
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. **Start the app**
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+Once running, you’ll be able to open the app in:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+* [Expo Go](https://expo.dev/go) (for quick testing on real devices)
+* [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+* [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+* A [development build](https://docs.expo.dev/develop/development-builds/introduction/) (for advanced features)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+> 🛠 The project uses [file-based routing](https://docs.expo.dev/router/introduction) via the `app/` directory.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 🧩 Features
 
-```bash
-npm run reset-project
-```
+- ✅ **Game Library** – Manage your personal board game collection  
+- ✅ **Random Game Picker** – Select a game at random based on filters  
+- ✅ **First Player Selector** – Choose who starts the game randomly  
+- ✅ **Score Tracking** – Track and save game scores  
+- ✅ **Native UI** – Smooth and responsive interface built with NativeWind
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+--- 
 
-## Learn more
+## 🛠️ Features to develop:
 
-To learn more about developing your project with Expo, look at the following resources:
+* Game request feature
+* Enhanced theming (dark/light modes)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 📚 Learn More
 
-Join our community of developers creating universal apps.
+* [Expo Documentation](https://docs.expo.dev/)
+* [React Native Docs](https://reactnative.dev/)
+* [NativeWind](https://www.nativewind.dev/)
+* [Expo Router (file-based routing)](https://docs.expo.dev/router/introduction/)
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 🪪 License
+
+This project is open-source and licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+<p align="center">
+  Built with ❤️ 
+</p>
