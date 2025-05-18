@@ -14,6 +14,11 @@ export interface Creator {
     lastname: string;
 }
 
+export interface Mechanic {
+    id: number;
+    name: string;
+}
+
 export interface Game {
     id: number;
     name: string;
@@ -29,5 +34,5 @@ export interface Game {
     categories: Category[];
     publishers: Publisher[];
     creators: Creator[];
+    mechanics: Mechanic[];
 }
-  
