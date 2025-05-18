@@ -66,7 +66,7 @@ export default function Index() {
           paddingRight: 5,
           marginBottom: 10
         }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: tabBarHeight + 50, }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: tabBarHeight, }}
         ListEmptyComponent={
           gamesLoading
             ? () => <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 40, alignSelf: 'center' }} />
