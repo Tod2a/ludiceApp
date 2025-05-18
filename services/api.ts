@@ -1,12 +1,11 @@
-import Constants from 'expo-constants';
 
-const apiUrl = Constants.expoConfig?.extra?.EXPO_PUBLIC_API_URL ?? 'https://ludice.app/api/';
+const apiUrl = process.env.EXPO_PUBLIC_API_URL ?? 'https://ludice.app';
 
 export const API_CONFIG = {
-    BASE_URL: 'https://tst.ludice.app/api/',
+    BASE_URL: `${apiUrl}/api/`,
     headers: {
         accept: 'application/json',
-        Authorization: 'Bearer 1|eFEereP8EmTHevaCmQdb5T1UqxnkTcOcKkg6sqUraa83b4ba',
+        Authorization: 'Bearer 1|WUIoQbineSxs08bDnGuKXybxKvkOHeNPM851vVZy2071f6e6',
     }
 }
 
