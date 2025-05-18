@@ -2,7 +2,7 @@ import GameCard from "@/components/GameCard";
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
-import { Game } from "@/interfaces/interfaces";
+import { Game } from "@/interfaces";
 import { fetchGames } from "@/services/api/game";
 import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";

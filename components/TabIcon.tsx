@@ -1,4 +1,4 @@
-import { TabIconProps } from "@/interfaces/interfaces";
+import { TabIconProps } from "@/interfaces";
 import { Image, Text, View } from "react-native";
 
 export default function TabIcon({ focused, icon, title }: TabIconProps) {
