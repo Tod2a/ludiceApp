@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { Game } from "@/interfaces/interfaces";
-import { fetchGames } from "@/services/api";
+import { fetchGames } from "@/services/api/game";
 import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
