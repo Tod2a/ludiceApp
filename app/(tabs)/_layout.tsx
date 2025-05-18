@@ -1,10 +1,10 @@
 import TabIcon from "@/components/TabIcon";
-import { Tabs } from "expo-router";
-
 import { icons } from "@/constants/icons";
+import { Tabs } from "expo-router";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabsLayout() {
-
+    const insets = useSafeAreaInsets();
     return (
         <Tabs
             screenOptions={{
@@ -25,9 +25,9 @@ export default function TabsLayout() {
             }}
         >
             <Tabs.Screen
-                name="index"
+                name="homepage"
                 options={{
-                    title: "index",
+                    title: "Test",
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} icon={icons.home} title="Home" />

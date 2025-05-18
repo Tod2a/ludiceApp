@@ -15,7 +15,10 @@ export const login = async ({ email, password }: LoginCredentials) => {
     });
 
     if (!response.ok) {
-        throw new Error(`Login failed ${endpoint}: ${response.statusText}`);
+        // Log the response for debugging
+        const errorText = await response.text();
+        console.log('Login failed response:', errorText);
+        throw new Error(`Login failed ${endpoint}: ${response.statusText} - ${errorText}`);
     }
 
     const data = await response.json();
@@ -25,3 +28,4 @@ export const login = async ({ email, password }: LoginCredentials) => {
     await SecureStore.setItemAsync('auth_token', token);
     await SecureStore.setItemAsync('user_id', userId.toString());
 };
+
