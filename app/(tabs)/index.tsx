@@ -2,66 +2,81 @@ import GameCard from "@/components/GameCard";
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
-import { Game } from "@/interfaces/interfaces";
-import { fetchGames } from "@/services/api";
+import { Game } from "@/interfaces";
+import { fetchGames } from "@/services/api/game";
 import useFetch from "@/services/useFetch";
-import { useRouter } from "expo-router";
-import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
+
 
 export default function Index() {
-  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+  const tabBarHeight = useBottomTabBarHeight();
 
   const {
     data: games,
     loading: gamesLoading,
-    error: gamesError
+    error: gamesError,
+    refetch: loadGames,
   } = useFetch(() => fetchGames({
-    query: ''
-  }))
+    query: searchQuery
+  }), true);
+
+  useEffect(() => {
+    const debouncedSearch = setTimeout(async () => {
+      await loadGames();
+    }, 500);
+    return () => clearTimeout(debouncedSearch);
+  }, [searchQuery]);
+
+  const renderEmptyComponent = () => {
+    if (gamesLoading || gamesError) return null;
+    return (
+      <View style={{ marginTop: 40, paddingHorizontal: 20 }}>
+        <Text style={{ textAlign: 'center', color: 'gray' }}>
+          {searchQuery.trim() ? 'No games found' : 'Search for a game'}
+        </Text>
+      </View>
+    );
+  };
 
   return (
-    <View className="flex-1 bg-primary">
-      <Image source={images.bg} className="absolute w-full z-0" />
-
-      <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false} contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}>
-        <Image source={icons.logo} resizeMode='contain' className="w-12 h-16 p-3 mt-20 mb-5 mx-auto" />
-
-        {gamesLoading ? (
-          <ActivityIndicator
-            size="large"
-            color="#0000ff"
-            className="mt-10 self-center"
-          />
-        ) : gamesError ? (
-          <Text className="text-lg text-white font-bold mt-5 mb-3">Error: {gamesError?.message}</Text>
-        ) :
-          <View className="flex-1 mt-5 mb-2">
-            <SearchBar
-              onPress={() => router.push("/search")}
-              placeholder="Rechercher un jeu"
-            />
-
-            <>
-              <FlatList
-                data={games?.data || []}
-                renderItem={({ item }: { item: Game }) => (
-                  <GameCard {...item} />
-                )}
-                keyExtractor={(item) => item.id.toString()}
-                numColumns={2}
-                columnWrapperStyle={{
-                  justifyContent: "flex-start",
-                  gap: 20,
-                  paddingRight: 5,
-                  marginBottom: 10
-                }}
-                className="mt-2 pb-32"
-                scrollEnabled={false}
-              />
-            </>
-          </View>
+    <View style={{ flex: 1, backgroundColor: '#000' }}>
+      <Image source={images.bg} style={{ position: 'absolute', width: '100%', zIndex: 0 }} />
+      <View className="mb-3">
+        <Image source={icons.logo} resizeMode='contain' style={{ width: 48, height: 64, marginTop: 40, marginBottom: 10, alignSelf: 'center' }} />
+        <SearchBar
+          placeholder="Rechercher un jeu"
+          value={searchQuery}
+          onChangeText={(text: string) => setSearchQuery(text)}
+        />
+      </View>
+      <FlatList
+        className="my-5"
+        data={games?.data || []}
+        renderItem={({ item }: { item: Game }) => (
+          <GameCard {...item} />
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={{
+          justifyContent: "flex-start",
+          gap: 20,
+          paddingRight: 5,
+          marginBottom: 10
+        }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: tabBarHeight, }}
+        ListEmptyComponent={
+          gamesLoading
+            ? () => <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 40, alignSelf: 'center' }} />
+            : gamesError
+              ? () => <Text style={{ fontSize: 18, color: 'white', fontWeight: 'bold', marginTop: 20, marginBottom: 12 }}>
+                Error: {gamesError?.message}
+              </Text>
+              : renderEmptyComponent
         }
-      </ScrollView>
+      />
     </View>
   );
 }

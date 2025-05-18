@@ -1,7 +1,24 @@
-//fetchGames
-//fetchGameDetails
-
-//useFetch(fetchGames)
+/**
+ * useFetch
+ * ----------
+ * A custom React hook for fetching data from an async function.
+ * 
+ * @template T - The type of the data returned by the fetchFunction.
+ * @param fetchFunction - An async function that fetches and returns data.
+ * @param autoFetch - Whether the data should be fetched automatically on mount (default: true).
+ * 
+ * @returns {
+*   data: T | null,           // The data returned from the fetch function
+*   loading: boolean,         // True while fetching
+*   error: Error | null,      // Any error encountered during fetch
+*   refetch: () => Promise<void>, // Manually trigger the fetch again
+*   reset: () => void         // Reset the state (data, error, loading)
+* }
+* 
+* Usage example:
+* 
+* const { data, loading, error, refetch, reset } = useFetch(() => fetchGames({ query: "catan" }));
+*/
 
 import { useEffect, useState } from "react";
 
