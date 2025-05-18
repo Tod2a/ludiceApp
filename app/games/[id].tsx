@@ -1,3 +1,4 @@
+import GameInfo from '@/components/GameInfo';
 import { fetchGamesDetails } from '@/services/api/game';
 import useFetch from '@/services/useFetch';
 import { useLocalSearchParams } from 'expo-router';
@@ -71,28 +72,34 @@ const GameDetails = () => {
                                 {game.is_expansion ? 'Non' : 'Oui'}
                             </Text>
                         </View>
-
-                        <View className="mb-4 space-y-1">
-                            <Text className="text-base text-white">
-                                <Text className="font-semibold">Catégories: </Text>
-                                {game.categories?.map(c => c.name).join(', ') || 'N/A'}
-                            </Text>
-                            <Text className="text-base text-white">
-                                <Text className="font-semibold">Mécaniques: </Text>
-                                {game.mechanics?.map(m => m.name).join(', ') || 'N/A'}
-                            </Text>
-                            <Text className="text-base text-white">
-                                <Text className="font-semibold">Éditeurs: </Text>
-                                {game.publishers?.map(p => p.name).join(', ') || 'N/A'}
-                            </Text>
-                            <Text className="text-base text-white">
-                                <Text className="font-semibold">Créateurs: </Text>
-                                {game.creators
-                                    ?.map(c => `${c.firstname} ${c.lastname}`)
-                                    .join(', ') || 'N/A'}
-                            </Text>
-                        </View>
                     </View>
+                </View>
+                <View className=" mx-4 shadow-md p-6">
+                    <GameInfo label='Catégories:' value={game?.categories?.map((c) => c.name).join(' - ') || 'N/A'} />
+                </View>
+                <View className="mt-6 bg-dark-200 rounded-lg mx-4 shadow-md p-6">
+                    <Text className="text-base text-white">
+                        <Text className="font-semibold">Catégories: </Text>
+                        {game.categories?.map(c => c.name).join(', ') || 'N/A'}
+                    </Text>
+                    <Text className="text-base text-white">
+                        <Text className="font-semibold">Mécaniques: </Text>
+                        {game.mechanics?.map(m => m.name).join(', ') || 'N/A'}
+                    </Text>
+                </View>
+
+                <View className="mt-6 bg-dark-200 rounded-lg mx-4 shadow-md p-6">
+                    <Text className="text-base text-white">
+                        <Text className="font-semibold">Créateurs: </Text>
+                        {game.creators
+                            ?.map(c => `${c.firstname} ${c.lastname}`)
+                            .join(', ') || 'N/A'}
+                    </Text>
+                    <Text className="text-base text-white">
+                        <Text className="font-semibold">Éditeurs: </Text>
+                        {game.publishers?.map(p => p.name).join(', ') || 'N/A'}
+                    </Text>
+
                 </View>
 
                 <View className="mt-6 bg-dark-200 rounded-lg mx-4 shadow-md p-6">
