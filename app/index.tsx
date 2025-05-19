@@ -1,8 +1,10 @@
+import { icons } from '@/constants/icons';
+import { images } from '@/constants/images';
 import { login } from '@/services/api/auth';
 import { Redirect } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Button, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -33,8 +35,8 @@ export default function LoginPage() {
             await login({ email, password });
             setIsAuthenticated(true);
         } catch (error: any) {
-            console.log('Login error:', error);
-            Alert.alert('Login failed', error?.message || 'An error occurred');
+            console.log(error?.message);
+            Alert.alert('Login failed', 'An error occurred');
         } finally {
             setLoading(false);
         }
@@ -42,7 +44,7 @@ export default function LoginPage() {
 
     if (checkingAuth) {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View className='flex-1 justify-center, align-middle'>
                 <ActivityIndicator size="large" />
             </View>
         );
@@ -53,25 +55,40 @@ export default function LoginPage() {
     }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
-            <Text style={{ marginBottom: 8 }}>Email:</Text>
-            <TextInput
-                style={{ borderWidth: 1, marginBottom: 12, padding: 8, borderRadius: 4, backgroundColor: '#fff' }}
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                editable={!loading}
-            />
-            <Text style={{ marginBottom: 8 }}>Password:</Text>
-            <TextInput
-                style={{ borderWidth: 1, marginBottom: 12, padding: 8, borderRadius: 4, backgroundColor: '#fff' }}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                editable={!loading}
-            />
-            <Button title={loading ? "Logging in..." : "Login"} onPress={handleLogin} disabled={loading} />
+        <View className="flex-1 bg-primary">
+            <Image source={images.bg} className="absolute w-full z-0" />
+            <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
+                <View className='justify-center p-20'>
+                    <Image source={icons.logo} resizeMode='contain' className='self-center w-48 h-64' />
+                    <Text className='my-8 text-white'>Email:</Text>
+                    <TextInput
+                        className="border border-dark-100 mb-3 p-2 rounded bg-white"
+                        value={email}
+                        onChangeText={setEmail}
+                        autoCapitalize="none"
+                        keyboardType="email-address"
+                        editable={!loading}
+                    />
+                    <Text className='mb-8 text-white'>Password:</Text>
+                    <TextInput
+                        className="border border-dark-100 mb-3 p-2 rounded bg-white"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        editable={!loading}
+                    />
+                    <TouchableOpacity
+                        className="mt-5 bottom-5 left-0 right-0 bg-green-400 rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
+                        onPress={handleLogin}
+                    >
+                        <Text className="text-white font-semibold text-base">{loading ? "Logging in..." : "Login"}</Text>
+                    </TouchableOpacity>
+                    <Text className='text-white'>
+                        Pas encore de compte ? Créez-en un sur
+                        <Text className='text-green-200' onPress={() => Linking.openURL('https://ludice.app/register')}> notre site web</Text>
+                    </Text>
+                </View>
+            </ScrollView>
         </View>
     );
 }

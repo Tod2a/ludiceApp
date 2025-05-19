@@ -42,10 +42,11 @@ export default function Index() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#000' }}>
-      <Image source={images.bg} style={{ position: 'absolute', width: '100%', zIndex: 0 }} />
+    <View className="flex-1 bg-primary">
+      <Image source={images.bg} className="absolute w-full z-0" />
       <View className="mb-3">
-        <Image source={icons.logo} resizeMode='contain' style={{ width: 48, height: 64, marginTop: 40, marginBottom: 10, alignSelf: 'center' }} />
+        <Image source={icons.logo} resizeMode='contain' className="w-12 h-16 p-3 mt-10 mb-5 mx-auto" />
+
         <SearchBar
           placeholder="Rechercher un jeu"
           value={searchQuery}

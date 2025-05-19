@@ -33,7 +33,7 @@ const GameDetails = () => {
 
     return (
         <View className="flex-1 bg-primary">
-            <Image source={images.bg} style={{ position: 'absolute', width: '100%', zIndex: 0 }} />
+            <Image source={images.bg} className="absolute w-full z-0" />
             <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
                 <Text className="text-3xl font-bold text-white text-center mt-8 mb-6">{game.name}</Text>
 
