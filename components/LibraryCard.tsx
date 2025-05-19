@@ -2,21 +2,32 @@ import { icons } from '@/constants/icons';
 import { Game } from '@/interfaces';
 import { destroyGameLibrary } from '@/services/api/library';
 import { Link } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
+import ConfirmDeleteModal from './ConfirmDeleteGameModal';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL ?? 'https://ludice.app/';
 
 interface LibraryCardProps extends Game {
     onRemove?: () => void;
-  }
+}
 
 const LibraryCard: React.FC<LibraryCardProps> = ({ id, img_path, name, onRemove }) => {
+    const [modalVisible, setModalVisible] = useState(false);
 
-    const removeGame = async () => {
+    const handleDeletePress = () => {
+        setModalVisible(true);
+    };
+
+    const handleConfirmDelete = async () => {
         await destroyGameLibrary(id);
         if (onRemove) onRemove()
-    }
+        setModalVisible(false);
+    };
+
+    const handleCancelDelete = () => {
+        setModalVisible(false);
+    };
 
     return (
         <View className="w-[48%] mb-4">
@@ -38,7 +49,7 @@ const LibraryCard: React.FC<LibraryCardProps> = ({ id, img_path, name, onRemove 
                     {name}
                 </Text>
                 <TouchableOpacity
-                    onPress={removeGame}
+                    onPress={handleDeletePress}
                 >
                     <Image
                         source={icons.firecross}
@@ -47,6 +58,13 @@ const LibraryCard: React.FC<LibraryCardProps> = ({ id, img_path, name, onRemove 
                     />
                 </TouchableOpacity>
             </View>
+
+            <ConfirmDeleteModal
+                name={name}
+                visible={modalVisible}
+                onConfirm={handleConfirmDelete}
+                onCancel={handleCancelDelete}
+            />
 
         </View>
     );

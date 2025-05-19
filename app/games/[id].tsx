@@ -43,7 +43,7 @@ const GameDetails = () => {
                 <Text className="text-3xl font-bold text-white text-center mt-8 mb-3">{game.name}</Text>
 
                 <View className=" mx-4 shadow-md p-6">
-                    <View >
+                    <View className='mb-2'>
                         <TouchableOpacity
                             className="bg-green-200 rounded-lg py-3.5 items-center justify-center z-50"
                             onPress={addLibrary}
