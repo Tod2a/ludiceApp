@@ -84,7 +84,7 @@ const library = () => {
                     className="size-5 mr-1 mt-0.5 rotate-180"
                     tintColor="#fff"
                 />
-                <Text className="text-white font-semibold text-base">Back To Homepage</Text>
+                <Text className="text-white font-semibold text-base">Retour à l’écran d’accueil</Text>
             </TouchableOpacity>
         </View>
     )

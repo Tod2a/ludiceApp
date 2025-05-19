@@ -3,6 +3,7 @@ import GameInfo from '@/components/GameInfo';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { fetchGamesDetails } from '@/services/api/game';
+import { storeGameLibrary } from '@/services/api/library';
 import useFetch from '@/services/useFetch';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
@@ -14,6 +15,10 @@ const GameDetails = () => {
     const { id } = useLocalSearchParams();
     const { data: game, loading } = useFetch(() => fetchGamesDetails(id as string));
     const router = useRouter();
+
+    const addLibrary = async () => {
+        await storeGameLibrary(id as string);
+    }
 
     if (loading) {
         return (
@@ -35,9 +40,17 @@ const GameDetails = () => {
         <View className="flex-1 bg-primary">
             <Image source={images.bg} className="absolute w-full z-0" />
             <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
-                <Text className="text-3xl font-bold text-white text-center mt-8 mb-6">{game.name}</Text>
+                <Text className="text-3xl font-bold text-white text-center mt-8 mb-3">{game.name}</Text>
 
                 <View className=" mx-4 shadow-md p-6">
+                    <View >
+                        <TouchableOpacity
+                            className="bg-green-200 rounded-lg py-3.5 items-center justify-center z-50"
+                            onPress={addLibrary}
+                        >
+                            <Text className="font-semibold text-base">Ajouter à votre Ludothèque</Text>
+                        </TouchableOpacity>
+                    </View>
                     <Image
                         source={{
                             uri: game.img_path
@@ -110,7 +123,7 @@ const GameDetails = () => {
                     className="size-5 mr-1 mt-0.5 rotate-180"
                     tintColor="#fff"
                 />
-                <Text className="text-white font-semibold text-base">Go Back</Text>
+                <Text className="text-white font-semibold text-base">Retour</Text>
             </TouchableOpacity>
 
         </View>
