@@ -24,8 +24,10 @@ export const login = async ({ email, password }: LoginCredentials) => {
     const data = await response.json();
     const token = data.token;
     const userId = data.user.id;
+    const userName = data.user.name;
 
     await SecureStore.setItemAsync('auth_token', token);
     await SecureStore.setItemAsync('user_id', userId.toString());
+    await SecureStore.setItemAsync('user_name', userName.toString());
 };
 

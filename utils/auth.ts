@@ -13,6 +13,10 @@ export const getUserId = async (): Promise<string | null> => {
     return await SecureStore.getItemAsync('user_id');
 }
 
+export const getUserName = async (): Promise<string | null> => {
+    return await SecureStore.getItemAsync('user_name');
+}
+
 export const logout = async () => {
     await SecureStore.deleteItemAsync('auth_token');
     await SecureStore.deleteItemAsync('user_id');

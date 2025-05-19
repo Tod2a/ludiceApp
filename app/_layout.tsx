@@ -22,6 +22,10 @@ export default function RootLayout() {
             name="games/[id]"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="library"
+            options={{ headerShown: false }}
+          />
         </Stack>
       </SafeAreaView>
     </>
