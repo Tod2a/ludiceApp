@@ -1,21 +1,24 @@
 import TabIcon from "@/components/TabIcon";
 import { icons } from "@/constants/icons";
 import { Tabs } from "expo-router";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabsLayout() {
-    const insets = useSafeAreaInsets();
     return (
         <Tabs
             screenOptions={{
                 tabBarShowLabel: false,
                 tabBarItemStyle: {
-                    paddingTop: 1,
+                    width: "100%",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
                 },
                 tabBarStyle: {
-                    backgroundColor: "#010E02",
+                    backgroundColor: "#101D15",
                     borderRadius: 50,
-                    marginHorizontal: 20,
+                    marginHorizontal: 10,
+                    paddingHorizontal: 15,
+                    marginBottom: 12,
                     height: 52,
                     position: "absolute",
                     overflow: "hidden",
@@ -49,10 +52,10 @@ export default function TabsLayout() {
             <Tabs.Screen
                 name="saved"
                 options={{
-                    title: "Saved",
+                    title: "Score",
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.save} title="Saved" />
+                        <TabIcon focused={focused} icon={icons.save} title="Score" />
                     ),
                 }}
             />
