@@ -33,8 +33,8 @@ export default function Index() {
   const renderEmptyComponent = () => {
     if (gamesLoading || gamesError) return null;
     return (
-      <View style={{ marginTop: 40, paddingHorizontal: 20 }}>
-        <Text style={{ textAlign: 'center', color: 'gray' }}>
+      <View className="mt-10 px-5">
+        <Text className="text-center text-gray-400">
           {searchQuery.trim() ? 'No games found' : 'Search for a game'}
         </Text>
       </View>
@@ -70,9 +70,9 @@ export default function Index() {
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: tabBarHeight, }}
         ListEmptyComponent={
           gamesLoading
-            ? () => <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 40, alignSelf: 'center' }} />
+            ? () => <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
             : gamesError
-              ? () => <Text style={{ fontSize: 18, color: 'white', fontWeight: 'bold', marginTop: 20, marginBottom: 12 }}>
+              ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
                 Error: {gamesError?.message}
               </Text>
               : renderEmptyComponent
