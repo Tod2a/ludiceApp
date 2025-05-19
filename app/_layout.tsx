@@ -1,21 +1,9 @@
-import { Stack, useRouter } from "expo-router";
-import * as SecureStore from 'expo-secure-store';
-import { useEffect, useState } from "react";
+import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "./globals.css";
 
 export default function RootLayout() {
-  const router = useRouter();
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const checkToken = async () => {
-      const storedToken = await SecureStore.getItemAsync('auth_token');
-      setToken(storedToken);
-    };
-    checkToken();
-  }, []);
 
   return (
     <>

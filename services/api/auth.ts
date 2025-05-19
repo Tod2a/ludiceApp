@@ -1,8 +1,9 @@
 import { LoginCredentials } from '@/interfaces';
 import * as SecureStore from 'expo-secure-store';
-import { API_CONFIG } from '../api';
+import { get_API_CONFIG } from '../api';
 
 export const login = async ({ email, password }: LoginCredentials) => {
+    const API_CONFIG = await get_API_CONFIG();
     const endpoint = `${API_CONFIG.BASE_URL}login`;
 
     const response = await fetch(endpoint, {
@@ -15,7 +16,6 @@ export const login = async ({ email, password }: LoginCredentials) => {
     });
 
     if (!response.ok) {
-        // Log the response for debugging
         const errorText = await response.text();
         console.log('Login failed response:', errorText);
         throw new Error(`Login failed ${endpoint}: ${response.statusText} - ${errorText}`);

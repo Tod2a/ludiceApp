@@ -1,7 +1,8 @@
 import { Game } from '@/interfaces';
-import { API_CONFIG } from '../api';
+import { get_API_CONFIG } from '../api';
 
 export const fetchGames = async ({ query }: { query: string }) => {
+    const API_CONFIG = await get_API_CONFIG();
     const endpoint = `${API_CONFIG.BASE_URL}game?query=${encodeURIComponent(query)}`;
 
     const response = await fetch(endpoint, {
@@ -19,6 +20,7 @@ export const fetchGames = async ({ query }: { query: string }) => {
 }
 
 export const fetchGamesDetails = async (gameId: string): Promise<Game> => {
+    const API_CONFIG = await get_API_CONFIG();
     const endpoint = `${API_CONFIG.BASE_URL}game/${gameId}`
     try {
         const response = await fetch(endpoint, {

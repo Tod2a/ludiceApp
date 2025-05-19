@@ -1,8 +1,8 @@
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { login } from '@/services/api/auth';
+import { isAuthenticated as checkIfAuthenticated } from '@/utils/auth';
 import { Redirect } from 'expo-router';
-import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -14,19 +14,12 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const checkAuthToken = async () => {
-            try {
-                const token = await SecureStore.getItemAsync('auth_token');
-                if (token) {
-                    setIsAuthenticated(true);
-                }
-            } catch (error) {
-            } finally {
-                setCheckingAuth(false);
-            }
+        const checkAuth = async () => {
+            const authenticated = await checkIfAuthenticated();
+            setIsAuthenticated(authenticated);
+            setCheckingAuth(false);
         };
-
-        checkAuthToken();
+        checkAuth();
     }, []);
 
     const handleLogin = async () => {
