@@ -2,8 +2,8 @@ import { get_API_CONFIG } from '../api';
 
 export const fetchLibraryGames = async ({ query }: { query: string }) => {
     const API_CONFIG = await get_API_CONFIG();
-    const endpoint = `${API_CONFIG.BASE_URL}library`;
-    //?query=${encodeURIComponent(query)}
+    const endpoint = `${API_CONFIG.BASE_URL}library?query=${encodeURIComponent(query)}`;
+
     const response = await fetch(endpoint, {
         method: 'GET',
         headers: API_CONFIG.headers,
@@ -15,5 +15,5 @@ export const fetchLibraryGames = async ({ query }: { query: string }) => {
 
     const data = await response.json();
 
-    return data.user.library;
+    return data;
 }

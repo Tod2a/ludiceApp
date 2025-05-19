@@ -52,10 +52,12 @@ const library = () => {
                     value={searchQuery}
                     onChangeText={(text: string) => setSearchQuery(text)}
                 />
+
+                <Text className='text-yellow-200 ml-2 mt-2'>Nombre de jeux: {games?.count}</Text>
             </View>
             <FlatList
                 className="my-5"
-                data={games || []}
+                data={games?.library?.data || []}
                 renderItem={({ item }: { item: Game }) => (
                     <GameCard {...item} />
                 )}
