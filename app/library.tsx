@@ -1,12 +1,97 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import GameCard from '@/components/GameCard';
+import SearchBar from '@/components/SearchBar';
+import { icons } from '@/constants/icons';
+import { images } from '@/constants/images';
+import { Game } from '@/interfaces';
+import { fetchLibraryGames } from '@/services/api/library';
+import useFetch from '@/services/useFetch';
+import { useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 
 const library = () => {
-  return (
-    <View>
-      <Text>library</Text>
-    </View>
-  )
+    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const {
+        data: games,
+        loading: loading,
+        error: error,
+        refetch: loadGames,
+    } = useFetch(() => fetchLibraryGames({
+        query: searchQuery
+    }), true);
+
+    useEffect(() => {
+        const debouncedSearch = setTimeout(async () => {
+            await loadGames();
+        }, 500);
+
+        return () => clearTimeout(debouncedSearch);
+    }, [searchQuery])
+
+    const renderEmptyComponent = () => {
+        if (loading || error) return null;
+        return (
+            <View className="mt-10 px-5">
+                <Text className="text-center text-gray-400">
+                    {searchQuery.trim() ? 'No games found' : 'Search for a game'}
+                </Text>
+            </View>
+        );
+    };
+
+    return (
+        <View className='flex-1 bg-primary'>
+            <Image source={images.bg} className="absolute w-full z-0" />
+            <View className='mb-3'>
+                <Text className="text-3xl font-bold text-white text-center mt-8 mb-6">Votre Ludothèque</Text>
+
+                <SearchBar
+                    placeholder="Rechercher un jeu"
+                    value={searchQuery}
+                    onChangeText={(text: string) => setSearchQuery(text)}
+                />
+            </View>
+            <FlatList
+                className="my-5"
+                data={games || []}
+                renderItem={({ item }: { item: Game }) => (
+                    <GameCard {...item} />
+                )}
+                keyExtractor={(item) => item.id.toString()}
+                numColumns={2}
+                columnWrapperStyle={{
+                    justifyContent: "flex-start",
+                    gap: 20,
+                    paddingRight: 5,
+                    marginBottom: 10
+                }}
+                contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20, }}
+                ListEmptyComponent={
+                    loading
+                        ? () => <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
+                        : error
+                            ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
+                                Error: {error?.message}
+                            </Text>
+                            : renderEmptyComponent
+                }
+            />
+
+            <TouchableOpacity
+                className="absolute bottom-5 left-0 right-0 mx-5 bg-green-400 rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
+                onPress={() => router.push('/(tabs)/homepage')}
+            >
+                <Image
+                    source={icons.arrow}
+                    className="size-5 mr-1 mt-0.5 rotate-180"
+                    tintColor="#fff"
+                />
+                <Text className="text-white font-semibold text-base">Back To Homepage</Text>
+            </TouchableOpacity>
+        </View>
+    )
 }
 
 export default library

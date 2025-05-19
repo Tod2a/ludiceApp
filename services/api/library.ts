@@ -15,5 +15,5 @@ export const fetchLibraryGames = async ({ query }: { query: string }) => {
 
     const data = await response.json();
 
-    return data;
+    return data.user.library;
 }

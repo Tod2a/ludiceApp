@@ -58,7 +58,7 @@ const profile = () => {
 
         <TouchableOpacity
           className="mt-5 mx-5 bottom-3 left-0 right-0 bg-green-400 rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
-          onPress={() => router.navigate("/library")}
+          onPress={() => router.push("/library")}
 
         >
           <Text className="text-white font-semibold text-base">Votre Ludothèque</Text>
