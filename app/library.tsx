@@ -1,4 +1,5 @@
 import GameCard from '@/components/GameCard';
+import RenderEmptyGameComponent from '@/components/RenderEmptyGameComponent';
 import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
@@ -29,17 +30,6 @@ const library = () => {
 
         return () => clearTimeout(debouncedSearch);
     }, [searchQuery])
-
-    const renderEmptyComponent = () => {
-        if (loading || error) return null;
-        return (
-            <View className="mt-10 px-5">
-                <Text className="text-center text-gray-400">
-                    {searchQuery.trim() ? 'No games found' : 'Search for a game'}
-                </Text>
-            </View>
-        );
-    };
 
     return (
         <View className='flex-1 bg-primary'>
@@ -77,7 +67,11 @@ const library = () => {
                             ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
                                 Error: {error?.message}
                             </Text>
-                            : renderEmptyComponent
+                            : <RenderEmptyGameComponent
+                                loading={loading}
+                                error={!!error}
+                                searchQuery={searchQuery}
+                            />
                 }
             />
 

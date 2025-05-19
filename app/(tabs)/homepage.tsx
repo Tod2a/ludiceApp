@@ -1,4 +1,5 @@
 import GameCard from "@/components/GameCard";
+import RenderEmptyGameComponent from "@/components/RenderEmptyGameComponent";
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
@@ -8,7 +9,6 @@ import useFetch from "@/services/useFetch";
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
-
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,17 +29,6 @@ export default function Index() {
     }, 500);
     return () => clearTimeout(debouncedSearch);
   }, [searchQuery]);
-
-  const renderEmptyComponent = () => {
-    if (gamesLoading || gamesError) return null;
-    return (
-      <View className="mt-10 px-5">
-        <Text className="text-center text-gray-400">
-          {searchQuery.trim() ? 'No games found' : 'Search for a game'}
-        </Text>
-      </View>
-    );
-  };
 
   return (
     <View className="flex-1 bg-primary">
@@ -75,7 +64,11 @@ export default function Index() {
               ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
                 Error: {gamesError?.message}
               </Text>
-              : renderEmptyComponent
+              : <RenderEmptyGameComponent
+                loading={gamesLoading}
+                error={!!gamesError}
+                searchQuery={searchQuery}
+              />
         }
       />
     </View>
