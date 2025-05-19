@@ -1,4 +1,4 @@
-import GameCard from '@/components/GameCard';
+import LibraryCard from '@/components/LibraryCard';
 import RenderEmptyGameComponent from '@/components/RenderEmptyGameComponent';
 import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
@@ -49,7 +49,7 @@ const library = () => {
                 className="my-5"
                 data={games?.library?.data || []}
                 renderItem={({ item }: { item: Game }) => (
-                    <GameCard {...item} />
+                    <LibraryCard {...item} onRemove={loadGames} />
                 )}
                 keyExtractor={(item) => item.id.toString()}
                 numColumns={2}
