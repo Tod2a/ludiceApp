@@ -2,9 +2,9 @@
 import GameInfo from '@/components/GameInfo';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
+import useFetch from '@/hooks/useFetch';
 import { fetchGamesDetails } from '@/services/api/game';
 import { storeGameLibrary } from '@/services/api/library';
-import useFetch from '@/services/useFetch';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
