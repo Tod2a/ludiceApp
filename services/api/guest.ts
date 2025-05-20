@@ -16,7 +16,7 @@ export const fetchGuest = async ({ name }: { name: string }) => {
 
     const data = await response.json();
 
-    return data.guest;
+    return data.guests;
 }
 
 export const storeGuest = async (name: string) => {

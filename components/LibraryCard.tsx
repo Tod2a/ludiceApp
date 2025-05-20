@@ -4,7 +4,7 @@ import { destroyGameLibrary } from '@/services/api/library';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import ConfirmDeleteModal from './ConfirmDeleteGameModal';
+import ConfirmDeleteModal from './modals/ConfirmDeleteGameModal';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL ?? 'https://ludice.app/';
 
