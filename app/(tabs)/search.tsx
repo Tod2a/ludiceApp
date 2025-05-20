@@ -9,7 +9,7 @@ import { Category, Mechanic } from '@/interfaces';
 import { fetchRandomGame } from '@/services/api/game';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, Keyboard, ScrollView, Text, View } from 'react-native';
 
 
 const search = () => {
@@ -38,6 +38,7 @@ const search = () => {
   }), false);
 
   const loadRandomGame = async () => {
+    Keyboard.dismiss();
     await loadGame()
   };
 

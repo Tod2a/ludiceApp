@@ -42,7 +42,8 @@ const CategoriesAutoComplete: React.FC<Props> = ({ selected, onAdd, onRemove, re
                         placeholder="Rechercher une catégorie"
                         value={input}
                         onChangeText={setInput}
-                        className="bg-yellow-100"
+                        placeholderTextColor="#F9F6C0"
+                        className="bg-dark-100 text-yellow-100"
                     />
                     {input.length > 0 && (
                         <TouchableOpacity
@@ -53,11 +54,11 @@ const CategoriesAutoComplete: React.FC<Props> = ({ selected, onAdd, onRemove, re
                         </TouchableOpacity>
                     )}
                 </View>
-                <View className='bg-yellow-100 rounded-b-xl z-50 shadow-md absolute top-full left-0 right-0'>
+                <View className='bg-dark-100 rounded-b-xl z-50 shadow-md absolute top-full left-0 right-0 text-yellow-100'>
                     {options.slice(0, 5).map((c) => (
 
                         <TouchableOpacity key={c.id} onPress={() => handleSelect(c)} >
-                            <Text className="text-black px-2 py-1">{c.name}</Text>
+                            <Text className="text-yellow-100 px-2 py-1">{c.name}</Text>
                         </TouchableOpacity>
 
                     ))}

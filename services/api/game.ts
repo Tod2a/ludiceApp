@@ -46,7 +46,6 @@ export async function fetchRandomGame({ requestParams }: { requestParams: Random
         const API_CONFIG = await get_API_CONFIG();
         var endpoint = `${API_CONFIG.BASE_URL}game/random`
 
-        // Filter out undefined/null values before sending request
         const filteredParams: any = {};
         Object.keys(requestParams).forEach((key) => {
             const value = (requestParams as any)[key];
@@ -59,7 +58,6 @@ export async function fetchRandomGame({ requestParams }: { requestParams: Random
                 filteredParams[key] = value;
             }
         });
-
 
         const queryString = new URLSearchParams(filteredParams).toString();
         if (queryString) {
