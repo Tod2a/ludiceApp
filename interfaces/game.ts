@@ -36,3 +36,8 @@ export interface Game {
     creators: Creator[];
     mechanics: Mechanic[];
 }
+
+export interface GameResponse {
+    game: Game;
+    message: string;
+}

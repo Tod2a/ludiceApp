@@ -1,3 +1,4 @@
+import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import LibraryCard from '@/components/LibraryCard';
 import RenderEmptyGameComponent from '@/components/RenderEmptyGameComponent';
 import SearchBar from '@/components/SearchBar';
@@ -8,7 +9,7 @@ import { Game } from '@/interfaces';
 import { fetchLibraryGames } from '@/services/api/library';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 
 const library = () => {
     const router = useRouter();
@@ -62,7 +63,7 @@ const library = () => {
                 contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20, }}
                 ListEmptyComponent={
                     loading
-                        ? () => <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
+                        ? () => <CustomActivityIndicator />
                         : error
                             ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
                                 Error: {error?.message}

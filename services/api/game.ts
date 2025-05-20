@@ -1,4 +1,4 @@
-import { Game, RandomGameRequestParams } from '@/interfaces';
+import { Game, GameResponse, RandomGameRequestParams } from '@/interfaces';
 import { get_API_CONFIG } from '../api';
 
 export const fetchGames = async ({ query }: { query: string }) => {
@@ -41,7 +41,7 @@ export const fetchGamesDetails = async (gameId: string): Promise<Game> => {
     }
 }
 
-export async function fetchRandomGame({ requestParams }: { requestParams: RandomGameRequestParams }): Promise<Game> {
+export async function fetchRandomGame({ requestParams }: { requestParams: RandomGameRequestParams }): Promise<GameResponse> {
     try {
         const API_CONFIG = await get_API_CONFIG();
         var endpoint = `${API_CONFIG.BASE_URL}game/random`
@@ -65,15 +65,15 @@ export async function fetchRandomGame({ requestParams }: { requestParams: Random
         if (queryString) {
             endpoint += `?${queryString}`;
         }
-        console.log(endpoint);
+
         const response = await fetch(endpoint, {
             method: 'GET',
             headers: API_CONFIG.headers,
         });
 
         const data = await response.json();
-        console.log(data);
-        return data.game;
+
+        return data;
     } catch (error: any) {
         if (error.response && error.response.data && error.response.data.message) {
             throw new Error(error.response.data.message);

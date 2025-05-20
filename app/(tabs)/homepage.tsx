@@ -1,3 +1,4 @@
+import CustomActivityIndicator from "@/components/CustomActivityIndicator";
 import GameCard from "@/components/GameCard";
 import RenderEmptyGameComponent from "@/components/RenderEmptyGameComponent";
 import SearchBar from "@/components/SearchBar";
@@ -8,7 +9,7 @@ import { Game } from "@/interfaces";
 import { fetchGames } from "@/services/api/game";
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, Text, View } from "react-native";
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -59,7 +60,7 @@ export default function Index() {
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: tabBarHeight, }}
         ListEmptyComponent={
           gamesLoading
-            ? () => <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
+            ? () => <CustomActivityIndicator />
             : gamesError
               ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
                 Error: {gamesError?.message}

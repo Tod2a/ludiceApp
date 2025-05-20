@@ -1,4 +1,5 @@
 
+import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import GameInfo from '@/components/GameInfo';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
@@ -7,7 +8,7 @@ import { fetchGamesDetails } from '@/services/api/game';
 import { storeGameLibrary } from '@/services/api/library';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
-import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 const GameDetails = () => {
 
@@ -23,7 +24,7 @@ const GameDetails = () => {
     if (loading) {
         return (
             <View className="flex-1 items-center justify-center bg-primary">
-                <ActivityIndicator size="large" color="#fff" />
+                <CustomActivityIndicator />
             </View>
         );
     }

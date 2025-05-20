@@ -1,33 +1,30 @@
+import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import { images } from '@/constants/images';
-import { Game } from '@/interfaces';
+import useFetch from "@/hooks/useFetch";
 import { fetchRandomGame } from '@/services/api/game';
 import React, { useState } from 'react';
-import { ActivityIndicator, Button, Image, Text, TextInput, View } from 'react-native';
+import { Button, Image, Text, TextInput, View } from 'react-native';
 
 const search = () => {
   const [players, setPlayers] = useState('');
   const [duration, setDuration] = useState('');
-  const [game, setGame] = useState<Game | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  var requestParams = {
+    players: Number(players),
+    duration: Number(duration),
+  };
+
+  const {
+    data: gameResponse,
+    loading: loading,
+    error: error,
+    refetch: loadGame,
+  } = useFetch(() => fetchRandomGame({
+    requestParams
+  }), false);
 
   const loadRandomGame = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const requestParams = {
-        players: Number(players),
-        duration: Number(duration),
-      };
-
-      const fetchedGame = await fetchRandomGame({ requestParams });
-      setGame(fetchedGame);
-    } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
+    await loadGame()
   };
 
   return (
@@ -50,11 +47,17 @@ const search = () => {
           className='bg-white'
         />
         <Button title="Get Random Game" onPress={loadRandomGame} />
-        {loading && <ActivityIndicator size="large" />}
-        {error && <Text style={{ color: 'red' }}>{error}</Text>}
-        {game && (
+        {loading &&
+          <CustomActivityIndicator />
+        }
+        {error && <Text style={{ color: 'red' }}>{error.message}</Text>}
+        {gameResponse && (
           <View style={{ marginTop: 16 }}>
-            <Text className='text-white'>{game.name}</Text>
+            {gameResponse.game ? (
+              <Text className="text-white">{gameResponse.game.name}</Text>
+            ) : (
+              <Text className="text-white">{gameResponse.message}</Text>
+            )}
           </View>
         )}
       </View>

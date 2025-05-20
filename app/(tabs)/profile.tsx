@@ -1,8 +1,9 @@
+import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import { images } from '@/constants/images';
 import { getUserName, logout } from '@/utils/auth';
 import { Redirect, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Linking, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, Text, TouchableOpacity, View } from 'react-native';
 
 const profile = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const profile = () => {
   };
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />;
+    return <CustomActivityIndicator />;
   }
 
   if (loggedOut) {

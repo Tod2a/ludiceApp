@@ -1,10 +1,11 @@
+import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { login } from '@/services/api/auth';
 import { isAuthenticated as checkIfAuthenticated } from '@/utils/auth';
 import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -38,7 +39,7 @@ export default function LoginPage() {
     if (checkingAuth) {
         return (
             <View className='flex-1 justify-center, align-middle'>
-                <ActivityIndicator size="large" />
+                <CustomActivityIndicator />
             </View>
         );
     }
