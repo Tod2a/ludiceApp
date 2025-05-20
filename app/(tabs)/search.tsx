@@ -9,7 +9,7 @@ import { Category, Mechanic } from '@/interfaces';
 import { fetchRandomGame } from '@/services/api/game';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
-import { Image, Keyboard, ScrollView, Text, View } from 'react-native';
+import { Image, Keyboard, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 
 const search = () => {
@@ -19,6 +19,7 @@ const search = () => {
   const [selectedMechanics, setSelectedMechanics] = useState<Mechanic[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [resetCounter, setResetCounter] = useState(0);
+  const base_url = process.env.EXPO_PUBLIC_API_URL;
 
   var requestParams = {
     players: Number(players),
@@ -61,7 +62,7 @@ const search = () => {
       <Image source={images.bg} className="absolute w-full z-0" />
       <Text className="text-3xl font-bold text-white text-center mt-8 mb-6">Quel jeu ce soir ?</Text>
       <ScrollView>
-        <View style={{ padding: 16 }}>
+        <View className='p-8 mb-16'>
           <Text className="text-xs text-yellow-200 text-start mb-2">
             Pas d'idée ? Ne remplissez rien et laissez le hasard choisir !
           </Text>
@@ -116,7 +117,34 @@ const search = () => {
           {gameResponse && (
             <View style={{ marginTop: 16 }}>
               {gameResponse.game ? (
-                <Text className="text-white">{gameResponse.game.name}</Text>
+                <View className="mt-4 bg-dark-200 rounded-xl p-4 w-11/12 self-center shadow-lg shadow-black/50">
+
+                  <Text className="text-white text-xl font-bold text-center mb-3">
+                    {gameResponse.game.name}
+                  </Text>
+
+                  <Image
+                    source={{ uri: `${base_url}${gameResponse.game.img_path}` }}
+                    className="w-full h-48 rounded-lg mb-4"
+                    resizeMode="cover"
+                  />
+
+                  <View className="flex-row justify-between mt-4">
+                    <TouchableOpacity
+                      className="flex-1 p-3 mr-2 bg-green-600 rounded-lg shadow-lg items-center"
+                      onPress={() => console.log('Choisir premier joueur')}
+                    >
+                      <Text className="text-white font-semibold">Choisir premier joueur</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      className="flex-1 p-3 ml-2 bg-green-700 rounded-lg shadow-lg items-center"
+                      onPress={() => console.log('Enregistrer le score')}
+                    >
+                      <Text className="text-white font-semibold">Enregistrer le score</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               ) : (
                 <Text className="text-white">{gameResponse.message}</Text>
               )}
