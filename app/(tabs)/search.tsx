@@ -142,12 +142,7 @@ const search = () => {
                       <Text className="text-white font-semibold">Choisir premier joueur</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                      className="flex-1 p-3 ml-2 bg-green-700 rounded-lg shadow-lg items-center"
-                      onPress={() => console.log('Enregistrer le score')}
-                    >
-                      <Text className="text-white font-semibold">Enregistrer le score</Text>
-                    </TouchableOpacity>
+
                   </View>
                 </View>
               ) : (

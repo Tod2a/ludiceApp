@@ -32,6 +32,10 @@ export default function RootLayout() {
             name="firstplayer"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="score"
+            options={{ headerShown: false }}
+          />
         </Stack>
       </SafeAreaView>
       <Toast visibilityTime={1500} />

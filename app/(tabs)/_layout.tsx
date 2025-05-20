@@ -50,7 +50,7 @@ export default function TabsLayout() {
             />
 
             <Tabs.Screen
-                name="saved"
+                name="score"
                 options={{
                     title: "Score",
                     headerShown: false,
