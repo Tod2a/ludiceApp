@@ -10,10 +10,14 @@ import { Image, Text, View } from 'react-native';
 const search = () => {
   const [players, setPlayers] = useState('');
   const [duration, setDuration] = useState('');
+  const [age, setAge] = useState('');
 
   var requestParams = {
     players: Number(players),
     duration: Number(duration),
+    age: Number(age),
+    // mechanics?: number[];
+    // categories?: number[];
   };
 
   const {
@@ -45,6 +49,12 @@ const search = () => {
           placeholder='Temps de jeu'
           value={duration}
           onChangeText={(text) => setDuration(text)}
+        />
+
+        <NumericInput
+          placeholder='Âge minimum'
+          value={age}
+          onChangeText={(text) => setAge(text)}
         />
 
         <View className='mt-3'>
