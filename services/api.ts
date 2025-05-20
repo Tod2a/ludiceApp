@@ -9,6 +9,7 @@ export const get_API_CONFIG = async () => {
         BASE_URL: `${apiUrl}/api/`,
         headers: {
             accept: 'application/json',
+            'Content-Type': 'application/json',
             Authorization: token ? `Bearer ${token}` : '',
         },
     };

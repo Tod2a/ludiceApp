@@ -1,9 +1,11 @@
 import GuestAutomcomplete from '@/components/autocompletes/GuestAutocomplete';
 import BackMenuButton from '@/components/buttons/BackMenuButton';
+import NewGuestModal from '@/components/modals/NewGuestModal';
 import { images } from '@/constants/images';
 import useFetch from '@/hooks/useFetch';
 import { Guest, Player } from '@/interfaces';
 import { fetchGamesDetails } from '@/services/api/game';
+import { storeGuest } from '@/services/api/guest';
 import { getUserId, getUserName } from '@/utils/auth';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -14,6 +16,7 @@ const SelectFirstPlayer = () => {
     const router = useRouter();
     const base_url = process.env.EXPO_PUBLIC_API_URL;
     const { data: game, loading } = useFetch(() => fetchGamesDetails(id as string));
+    const [modalVisible, setModalVisible] = useState(false);
 
     const [userName, setUserName] = useState('');
     const [userId, setUserId] = useState('');
@@ -47,6 +50,14 @@ const SelectFirstPlayer = () => {
         checkUser();
     }, []);
 
+    const handleCreateGuest = async (name: string) => {
+        const newGuest = await storeGuest(name);
+        if (newGuest) {
+            setSelectedGuest(prev => [...prev, newGuest]);
+        }
+        setModalVisible(false);
+    };
+
     return (
         <View className="flex-1 bg-primary">
             <Image source={images.bg} className="absolute w-full z-0" />
@@ -60,7 +71,7 @@ const SelectFirstPlayer = () => {
                 <View className='mx-5'>
                     <View className="flex-row items-center justify-between mb-2">
                         <Text className="text-l text-yellow-200">Qui va jouer ?</Text>
-                        <TouchableOpacity onPress={() => console.log('create')}>
+                        <TouchableOpacity onPress={() => setModalVisible(true)}>
                             <Text className="text-sm text-yellow-200">Créer un invité</Text>
                         </TouchableOpacity>
                     </View>
@@ -141,6 +152,12 @@ const SelectFirstPlayer = () => {
                     />
                 </View>
             </ScrollView>
+
+            <NewGuestModal
+                visible={modalVisible}
+                onConfirm={(n) => { handleCreateGuest(n) }}
+                onCancel={() => setModalVisible(false)}
+            />
 
             <BackMenuButton onPress={() => { router.push('/') }} text="Retour à l'accueil" />
         </View>

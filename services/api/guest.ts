@@ -43,7 +43,7 @@ export const storeGuest = async (name: string) => {
             return null;
         }
 
-        return name;
+        return data.guest;
     } catch (error: any) {
         Toast.show({
             type: 'error',
