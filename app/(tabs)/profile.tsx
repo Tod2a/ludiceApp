@@ -67,6 +67,13 @@ const profile = () => {
 
         <View className='mt-5 mx-5'>
           <PrimaryButton
+            text="Choisir un premier joueur aléatoire"
+            onPress={() => router.push("/firstplayer/game")}
+          />
+        </View>
+
+        <View className='mt-5 mx-5'>
+          <PrimaryButton
             text={loading ? "Logging out..." : "Déconnexion"}
             onPress={handleLogout}
           />

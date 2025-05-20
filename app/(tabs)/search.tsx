@@ -8,6 +8,7 @@ import useFetch from "@/hooks/useFetch";
 import { Category, Mechanic } from '@/interfaces';
 import { fetchRandomGame } from '@/services/api/game';
 import { useFocusEffect } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { Image, Keyboard, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
@@ -20,6 +21,7 @@ const search = () => {
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [resetCounter, setResetCounter] = useState(0);
   const base_url = process.env.EXPO_PUBLIC_API_URL;
+  const router = useRouter();
 
   var requestParams = {
     players: Number(players),
@@ -132,7 +134,10 @@ const search = () => {
                   <View className="flex-row justify-between mt-4">
                     <TouchableOpacity
                       className="flex-1 p-3 mr-2 bg-green-600 rounded-lg shadow-lg items-center"
-                      onPress={() => console.log('Choisir premier joueur')}
+                      onPress={() => router.push({
+                        pathname: '/firstplayer/select/[id]',
+                        params: { id: gameResponse.game.id },
+                      })}
                     >
                       <Text className="text-white font-semibold">Choisir premier joueur</Text>
                     </TouchableOpacity>
