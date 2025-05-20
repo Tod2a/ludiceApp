@@ -81,6 +81,9 @@ const search = () => {
           <MechanicsAutocomplete
             selected={selectedMechanics}
             onAdd={(m) => setSelectedMechanics((prev) => [...prev, m])}
+            onRemove={(m) =>
+              setSelectedMechanics((prev) => prev.filter((mech) => mech.id !== m.id))
+            }
             resetSignal={resetCounter}
           />
         </View>

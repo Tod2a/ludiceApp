@@ -1,15 +1,17 @@
 import { Mechanic } from '@/interfaces';
 import { fetchMechanics } from '@/services/api/mechanics';
+import { icons } from '@/constants/icons';
 import React, { useEffect, useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface Props {
     selected: Mechanic[];
     onAdd: (mechanic: Mechanic) => void;
+    onRemove: (mechanic: Mechanic) => void;
     resetSignal?: number;
 }
 
-const MechanicsAutocomplete: React.FC<Props> = ({ selected, onAdd, resetSignal }) => {
+const MechanicsAutocomplete: React.FC<Props> = ({ selected, onAdd, onRemove, resetSignal }) => {
     const [input, setInput] = useState('');
     const [options, setOptions] = useState<Mechanic[]>([]);
 
@@ -33,23 +35,35 @@ const MechanicsAutocomplete: React.FC<Props> = ({ selected, onAdd, resetSignal }
     };
 
     return (
-        <View className="mt-4">
-            <TextInput
-                placeholder="Rechercher une mécanique"
-                value={input}
-                onChangeText={setInput}
-                className="bg-white px-3 py-2 rounded"
-            />
-            {options.map((m) => (
-                <TouchableOpacity key={m.id} onPress={() => handleSelect(m)}>
-                    <Text className="text-white px-2 py-1">{m.name}</Text>
-                </TouchableOpacity>
-            ))}
-            <View className="flex-row flex-wrap gap-2 mt-2">
+        <View>
+            <View className='relative'>
+                <TextInput
+                    placeholder="Rechercher une mécanique"
+                    value={input}
+                    onChangeText={setInput}
+                    className="bg-yellow-100"
+                />
+                <View className='bg-yellow-100 rounded-b-xl z-50 shadow-md absolute top-full left-0 right-0'>
+                    {options.slice(0, 5).map((m) => (
+
+                        <TouchableOpacity key={m.id} onPress={() => handleSelect(m)} >
+                            <Text className="text-black px-2 py-1">{m.name}</Text>
+                        </TouchableOpacity>
+
+                    ))}
+                </View>
+            </View>
+            <View className="flex-row flex-wrap gap-2 my-2">
                 {selected.map((m) => (
-                    <Text key={m.id} className="bg-green-700 text-white px-2 py-1 rounded-full">
-                        {m.name}
-                    </Text>
+                    <View
+                        key={m.id}
+                        className="bg-green-700 flex-row items-center px-2 py-1 rounded-full"
+                    >
+                        <Text className="text-white mr-1">{m.name}</Text>
+                        <TouchableOpacity onPress={() => onRemove(m)}>
+                            <Image source={icons.firecross} className="w-4 h-4 tint-white" />
+                        </TouchableOpacity>
+                    </View>
                 ))}
             </View>
         </View>

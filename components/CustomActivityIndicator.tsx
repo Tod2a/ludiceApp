@@ -3,8 +3,8 @@ import { ActivityIndicator, View } from 'react-native'
 
 const CustomActivityIndicator = () => {
     return (
-        <View className="inset-0 justify-center items-center z-50">
-            <ActivityIndicator size="large" color="#AED39A" />
+        <View className="inset-0 justify-center items-center z-50 absolute">
+            <ActivityIndicator size="large" color="#345A20" />
         </View>
     )
 }
