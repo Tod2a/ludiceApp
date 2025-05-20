@@ -1,9 +1,10 @@
+import PrimaryButton from '@/components/buttons/PrimaryButton';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import { images } from '@/constants/images';
 import { getUserName, logout } from '@/utils/auth';
 import { Redirect, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Image, Linking, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, Text, View } from 'react-native';
 
 const profile = () => {
   const router = useRouter();
@@ -57,20 +58,20 @@ const profile = () => {
           </Text>
         </View>
 
-        <TouchableOpacity
-          className="mt-5 mx-5 bottom-3 left-0 right-0 bg-green-400 rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
-          onPress={() => router.push("/library")}
+        <View className='mt-5 mx-5'>
+          <PrimaryButton
+            text="Votre Ludothèque"
+            onPress={() => router.push("/library")}
+          />
+        </View>
 
-        >
-          <Text className="text-white font-semibold text-base">Votre Ludothèque</Text>
-        </TouchableOpacity>
+        <View className='mt-5 mx-5'>
+          <PrimaryButton
+            text={loading ? "Logging out..." : "Déconnexion"}
+            onPress={handleLogout}
+          />
+        </View>
 
-        <TouchableOpacity
-          className="mt-5 mx-5 bottom-5 left-0 right-0 bg-green-400 rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
-          onPress={handleLogout}
-        >
-          <Text className="text-white font-semibold text-base">{loading ? "Logging out..." : "Déconnexion"}</Text>
-        </TouchableOpacity>
       </View>
     </View>
   )
