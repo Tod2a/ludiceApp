@@ -1,3 +1,4 @@
+import CategoriesAutoComplete from '@/components/autocompletes/CategoriesAutocomplete';
 import MechanicsAutocomplete from '@/components/autocompletes/MechanicsAutocomplete';
 import PrimaryButton from '@/components/buttons/PrimaryButton';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
@@ -8,7 +9,7 @@ import { Category, Mechanic } from '@/interfaces';
 import { fetchRandomGame } from '@/services/api/game';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 
 
 const search = () => {
@@ -54,60 +55,77 @@ const search = () => {
   );
 
   return (
+
     <View className='flex-1 bg-primary'>
       <Image source={images.bg} className="absolute w-full z-0" />
-      <Text className="text-3xl font-bold text-white text-center mt-8 mb-6">A quoi on joue ?</Text>
-      <View style={{ padding: 16 }}>
-
-        <NumericInput
-          placeholder='Nombre de joueurs'
-          value={players}
-          onChangeText={(text) => setPlayers(text)}
-        />
-
-        <NumericInput
-          placeholder='Temps de jeu'
-          value={duration}
-          onChangeText={(text) => setDuration(text)}
-        />
-
-        <NumericInput
-          placeholder='Âge minimum'
-          value={age}
-          onChangeText={(text) => setAge(text)}
-        />
-
-        <View>
-          <MechanicsAutocomplete
-            selected={selectedMechanics}
-            onAdd={(m) => setSelectedMechanics((prev) => [...prev, m])}
-            onRemove={(m) =>
-              setSelectedMechanics((prev) => prev.filter((mech) => mech.id !== m.id))
-            }
-            resetSignal={resetCounter}
+      <Text className="text-3xl font-bold text-white text-center mt-8 mb-6">Quel jeu ce soir ?</Text>
+      <ScrollView>
+        <View style={{ padding: 16 }}>
+          <Text className="text-xs text-yellow-200 text-start mb-2">
+            Pas d'idée ? Ne remplissez rien et laissez le hasard choisir !
+          </Text>
+          <NumericInput
+            placeholder='Nombre de joueurs'
+            value={players}
+            onChangeText={(text) => setPlayers(text)}
           />
-        </View>
 
-        <View className='mt-3'>
-          <PrimaryButton text='Choisir un jeu aléatoirement' onPress={loadRandomGame} />
-        </View>
+          <NumericInput
+            placeholder='Temps de jeu'
+            value={duration}
+            onChangeText={(text) => setDuration(text)}
+          />
 
-        {loading &&
-          <CustomActivityIndicator />
-        }
-        {error && <Text style={{ color: 'red' }}>{error.message}</Text>}
-        {gameResponse && (
-          <View style={{ marginTop: 16 }}>
-            {gameResponse.game ? (
-              <Text className="text-white">{gameResponse.game.name}</Text>
-            ) : (
-              <Text className="text-white">{gameResponse.message}</Text>
-            )}
+          <NumericInput
+            placeholder='Âge minimum'
+            value={age}
+            onChangeText={(text) => setAge(text)}
+          />
+
+          <View className='mb-2'>
+            <MechanicsAutocomplete
+              selected={selectedMechanics}
+              onAdd={(m) => setSelectedMechanics((prev) => [...prev, m])}
+              onRemove={(m) =>
+                setSelectedMechanics((prev) => prev.filter((mech) => mech.id !== m.id))
+              }
+              resetSignal={resetCounter}
+            />
           </View>
-        )}
-      </View>
+
+          <View className='mb-2'>
+            <CategoriesAutoComplete
+              selected={selectedCategories}
+              onAdd={(c) => setSelectedCategories((prev) => [...prev, c])}
+              onRemove={(c) =>
+                setSelectedCategories((prev) => prev.filter((cat) => cat.id !== c.id))
+              }
+              resetSignal={resetCounter}
+            />
+          </View>
+
+          <View className='mt-3'>
+            <PrimaryButton text='Choisir un jeu aléatoirement' onPress={loadRandomGame} />
+          </View>
+
+          {loading &&
+            <CustomActivityIndicator />
+          }
+          {error && <Text style={{ color: 'red' }}>{error.message}</Text>}
+          {gameResponse && (
+            <View style={{ marginTop: 16 }}>
+              {gameResponse.game ? (
+                <Text className="text-white">{gameResponse.game.name}</Text>
+              ) : (
+                <Text className="text-white">{gameResponse.message}</Text>
+              )}
+            </View>
+          )}
+        </View>
+      </ScrollView>
     </View>
+
   )
 }
 
-export default search
+export default search;
