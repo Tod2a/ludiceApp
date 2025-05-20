@@ -1,23 +1,30 @@
+import MechanicsAutocomplete from '@/components/autocompletes/MechanicsAutocomplete';
 import PrimaryButton from '@/components/buttons/PrimaryButton';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import NumericInput from '@/components/inputs/NumericInput';
 import { images } from '@/constants/images';
 import useFetch from "@/hooks/useFetch";
+import { Category, Mechanic } from '@/interfaces';
 import { fetchRandomGame } from '@/services/api/game';
-import React, { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import { Image, Text, View } from 'react-native';
+
 
 const search = () => {
   const [players, setPlayers] = useState('');
   const [duration, setDuration] = useState('');
   const [age, setAge] = useState('');
+  const [selectedMechanics, setSelectedMechanics] = useState<Mechanic[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+  const [resetCounter, setResetCounter] = useState(0);
 
   var requestParams = {
     players: Number(players),
     duration: Number(duration),
     age: Number(age),
-    // mechanics?: number[];
-    // categories?: number[];
+    mechanics: selectedMechanics.map(m => m.id),
+    categories: selectedCategories.map(c => c.id),
   };
 
   const {
@@ -32,6 +39,19 @@ const search = () => {
   const loadRandomGame = async () => {
     await loadGame()
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setPlayers('');
+        setDuration('');
+        setAge('');
+        setSelectedMechanics([]);
+        setSelectedCategories([]);
+        setResetCounter(prev => prev + 1);
+      };
+    }, [])
+  );
 
   return (
     <View className='flex-1 bg-primary'>
@@ -56,6 +76,14 @@ const search = () => {
           value={age}
           onChangeText={(text) => setAge(text)}
         />
+
+        <View>
+          <MechanicsAutocomplete
+            selected={selectedMechanics}
+            onAdd={(m) => setSelectedMechanics((prev) => [...prev, m])}
+            resetSignal={resetCounter}
+          />
+        </View>
 
         <View className='mt-3'>
           <PrimaryButton text='Choisir un jeu aléatoirement' onPress={loadRandomGame} />
