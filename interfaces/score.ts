@@ -16,3 +16,34 @@ export interface SectionDTO {
 export type ScoreDTO =
     | { user_id: string; guest_id?: undefined; score: number }
     | { guest_id: string; user_id?: undefined; score: number };
+
+export interface ScoreSheet {
+    id: number;
+    game_id: number;
+    created_at: string;
+    updated_at: string;
+    game: {
+        id: number;
+        name: string;
+    };
+    sections: ScoreSection[];
+}
+
+export interface ScoreSection {
+    id: number;
+    score_sheet_id: number;
+    guest_id: number | null;
+    user_id: number | null;
+    score: number;
+    created_at: string;
+    updated_at: string;
+    name: string;
+    guest: {
+        id: number;
+        name: string;
+    } | null;
+    user: {
+        id: number;
+        name: string;
+    } | null;
+}

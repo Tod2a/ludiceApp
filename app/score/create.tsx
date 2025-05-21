@@ -121,7 +121,7 @@ const create = () => {
                 {loading ? (
                     <CustomActivityIndicator />
                 ) : error ? (
-                    <Text>Error Server</Text>
+                    <Text className='text-white'>Error Server</Text>
                 ) : (
                     <>
                         <Text className="text-2xl font-bold text-white text-center mb-6">
