@@ -13,6 +13,9 @@ import { FlatList, Image, Text, View } from "react-native";
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [gamesList, setGamesList] = useState<Game[]>([]);
+  const [hasMore, setHasMore] = useState(true);
   const tabBarHeight = useBottomTabBarHeight();
 
   const {
@@ -21,15 +24,38 @@ export default function Index() {
     error: gamesError,
     refetch: loadGames,
   } = useFetch(() => fetchGames({
-    query: searchQuery
+    query: searchQuery,
+    page: page
   }), true);
 
   useEffect(() => {
+    setPage(1);
     const debouncedSearch = setTimeout(async () => {
       await loadGames();
     }, 500);
     return () => clearTimeout(debouncedSearch);
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (page !== 1) {
+      loadGames();
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (games?.data) {
+      setGamesList(prevGames =>
+        page === 1 ? games.data : [...prevGames, ...games.data]
+      );
+      setHasMore(games.current_page < games.last_page);
+    }
+  }, [games]);
+
+  const endReached = () => {
+    if (hasMore && !gamesLoading) {
+      setPage(prevPage => prevPage + 1);
+    }
+  };
 
   return (
     <View className="flex-1 bg-primary">
@@ -45,11 +71,11 @@ export default function Index() {
       </View>
       <FlatList
         className="my-5"
-        data={games?.data || []}
-        renderItem={({ item }: { item: Game }) => (
-          <GameCard {...item} />
-        )}
+        data={gamesList}
+        renderItem={({ item }: { item: Game }) => <GameCard {...item} />}
         keyExtractor={(item) => item.id.toString()}
+        onEndReached={endReached}
+        onEndReachedThreshold={0.5}
         numColumns={2}
         columnWrapperStyle={{
           justifyContent: "flex-start",

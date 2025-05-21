@@ -1,9 +1,9 @@
 import { Game, GameResponse, RandomGameRequestParams } from '@/interfaces';
 import { get_API_CONFIG } from '../api';
 
-export const fetchGames = async ({ query }: { query: string }) => {
+export const fetchGames = async ({ query, page = 1 }: { query: string, page: number }) => {
     const API_CONFIG = await get_API_CONFIG();
-    const endpoint = `${API_CONFIG.BASE_URL}game?query=${encodeURIComponent(query)}`;
+    const endpoint = `${API_CONFIG.BASE_URL}game?query=${encodeURIComponent(query)}&page=${page}`;
 
     const response = await fetch(endpoint, {
         method: 'GET',
