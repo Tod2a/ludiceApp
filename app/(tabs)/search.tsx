@@ -139,7 +139,7 @@ const search = () => {
                         params: { id: gameResponse.game.id },
                       })}
                     >
-                      <Text className="text-white font-semibold">Choisir premier joueur</Text>
+                      <Text className="text-white font-semibold">Choisir premier joueur / Enregistrer le score</Text>
                     </TouchableOpacity>
 
 

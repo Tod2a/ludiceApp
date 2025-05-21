@@ -58,6 +58,38 @@ const SelectFirstPlayer = () => {
         setModalVisible(false);
     };
 
+    const selectFirstPlayer = () => {
+        const players: Player[] = [
+            user,
+            ...selectedGuest.map((g) => ({
+                id: g.id,
+                name: g.name,
+                type: 'guest' as const,
+            })),
+        ];
+        const random = players[Math.floor(Math.random() * players.length)];
+        setSelectedFirstPlayer(random);
+    }
+
+    const navigateCreateScore = () => {
+        const players: Player[] = [
+            user,
+            ...selectedGuest.map((g) => ({
+                id: g.id,
+                name: g.name,
+                type: 'guest' as const,
+            })),
+        ];
+
+        router.push({
+            pathname: '/score/create',
+            params: {
+                gameId: id as string,
+                players: JSON.stringify(players),
+            },
+        });
+    }
+
     return (
         <View className="flex-1 bg-primary">
             <Image source={images.bg} className="absolute w-full z-0" />
@@ -99,42 +131,14 @@ const SelectFirstPlayer = () => {
                 <View className="flex-row justify-between px-5 mt-4 mb-2 gap-4">
                     <TouchableOpacity
                         className="bg-dark-200 px-4 py-3 rounded-xl flex-1"
-                        onPress={() => {
-                            const players: Player[] = [
-                                user,
-                                ...selectedGuest.map((g) => ({
-                                    id: g.id,
-                                    name: g.name,
-                                    type: 'guest' as const,
-                                })),
-                            ];
-                            const random = players[Math.floor(Math.random() * players.length)];
-                            setSelectedFirstPlayer(random);
-                        }}
+                        onPress={() => { selectFirstPlayer() }}
                     >
                         <Text className="text-white text-center">Choisir le premier joueur</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         className="bg-yellow-200 px-4 py-3 rounded-xl flex-1 justify-center"
-                        onPress={() => {
-                            const players: Player[] = [
-                                user,
-                                ...selectedGuest.map((g) => ({
-                                    id: g.id,
-                                    name: g.name,
-                                    type: 'guest' as const,
-                                })),
-                            ];
-
-                            router.push({
-                                pathname: '/score/create',
-                                params: {
-                                    gameId: id as string,
-                                    players: JSON.stringify(players),
-                                },
-                            });
-                        }}
+                        onPress={() => { navigateCreateScore() }}
                     >
                         <Text className="text-dark-100 text-center">Enregistrer le score</Text>
                     </TouchableOpacity>
