@@ -2,11 +2,11 @@ import { ScoreSheetDTO } from '@/interfaces';
 import Toast from 'react-native-toast-message';
 import { get_API_CONFIG } from '../api';
 
-export const fetchScore = async (gameId?: number | null) => {
+export const fetchScore = async (gameId?: number | null, page = 1) => {
     const API_CONFIG = await get_API_CONFIG();
     const endpoint = gameId
-        ? `${API_CONFIG.BASE_URL}score/${gameId}`
-        : `${API_CONFIG.BASE_URL}score`;
+        ? `${API_CONFIG.BASE_URL}score/${gameId}?page=${page}`
+        : `${API_CONFIG.BASE_URL}score?page=${page}`;
 
     const response = await fetch(endpoint, {
         method: 'GET',

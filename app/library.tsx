@@ -1,5 +1,5 @@
+import LibraryCard from '@/components/cards/LibraryCard';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
-import LibraryCard from '@/components/LibraryCard';
 import RenderEmptyGameComponent from '@/components/RenderEmptyGameComponent';
 import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
@@ -37,6 +37,7 @@ const library = () => {
         }, 500);
         return () => clearTimeout(debouncedSearch);
     }, [searchQuery]);
+    
     useEffect(() => {
         if (page !== 1) {
             loadGames();

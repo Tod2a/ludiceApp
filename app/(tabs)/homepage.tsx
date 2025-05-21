@@ -1,5 +1,5 @@
 import CustomActivityIndicator from "@/components/CustomActivityIndicator";
-import GameCard from "@/components/GameCard";
+import GameCard from "@/components/cards/GameCard";
 import RenderEmptyGameComponent from "@/components/RenderEmptyGameComponent";
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";

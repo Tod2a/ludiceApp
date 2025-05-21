@@ -1,38 +1,60 @@
 import LibraryGamesAutoComplete from '@/components/autocompletes/LibraryGamesAutocomplete'
+import ScoreCard from '@/components/cards/ScoreCard'
 import CustomActivityIndicator from '@/components/CustomActivityIndicator'
 import { images } from '@/constants/images'
 import useFetch from '@/hooks/useFetch'
 import { Game, ScoreSheet } from '@/interfaces'
 import { fetchScore } from '@/services/api/score'
 import React, { useEffect, useState } from 'react'
-import { Image, ScrollView, Text, View } from 'react-native'
+import { FlatList, Image, Text, View } from 'react-native'
 
 const score = () => {
   const [searchGame, setSearchGame] = useState<Game | null>(null);
+  const [page, setPage] = useState(1);
+  const [scores, setScores] = useState<ScoreSheet[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
   const {
     data: scheets,
     loading,
     error,
     refetch: loadScores,
-  } = useFetch(() => fetchScore(searchGame?.id), true);
-
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return new Intl.DateTimeFormat('fr-FR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(date);
-  };
+  } = useFetch(() => fetchScore(searchGame?.id, page), true);
 
   useEffect(() => {
+    setPage(1);
+    setHasMore(true);
+    setScores([]);
     loadScores();
   }, [searchGame]);
 
+  useEffect(() => {
+    if (page !== 1) {
+      loadScores();
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (scheets?.data) {
+      setScores(prevScores =>
+        page === 1 ? scheets.data : [...prevScores, ...scheets.data]
+      );
+      setHasMore(scheets.current_page < scheets.last_page);
+    }
+  }, [scheets]);
+
+  const endReached = () => {
+    if (hasMore && !loading) {
+      setPage(prevPage => prevPage + 1);
+    }
+  };
+
   const onAdd = (g: Game) => {
     setSearchGame(g);
+  };
+
+  const clearResearch = () => {
+    setSearchGame(null);
   };
 
   return (
@@ -44,13 +66,8 @@ const score = () => {
       ) : error ? (
         <Text className='text-white'>Error Server</Text>
       ) : (
-        <ScrollView contentContainerStyle={{
-          flexGrow: 1,
-          alignContent: 'center',
-          marginHorizontal: 10,
-          marginTop: 40,
-          paddingBottom: 120,
-        }}>
+        <View className="mx-5 pb-16">
+
           <Text className="text-2xl font-bold text-white text-center mb-6">
             Vos scores enregistrés
           </Text>
@@ -59,7 +76,7 @@ const score = () => {
             <LibraryGamesAutoComplete onAdd={onAdd} />
             {searchGame && (
               <Text
-                onPress={() => setSearchGame(null)}
+                onPress={clearResearch}
                 className="text-yellow-100 text-right mt-2 underline"
               >
                 Annuler la recherche
@@ -67,40 +84,28 @@ const score = () => {
             )}
           </View>
 
-          {scheets?.data?.map((sheet: ScoreSheet) => (
-            <View
-              key={sheet.id}
-              className="bg-white/10 rounded-2xl p-4 mb-4 border border-white/20"
-            >
-              <Text className="text-white text-xl font-semibold mb-1">
-                {sheet.game.name}
-              </Text>
-              <Text className="text-white text-sm mb-3">
-                {formatDate(sheet.created_at)}
-              </Text>
-
-              {(() => {
-                const scoresByPlayer: Record<string, number> = {};
-
-                sheet.sections.forEach((section) => {
-                  const participant = section.user?.name || section.guest?.name || 'Inconnu';
-
-                  if (!scoresByPlayer[participant]) {
-                    scoresByPlayer[participant] = 0;
-                  }
-
-                  scoresByPlayer[participant] += section.score;
-                });
-
-                return Object.entries(scoresByPlayer).map(([name, totalScore]) => (
-                  <Text key={name} className="text-white ml-2">
-                    - {name} : {totalScore} pts
+          <FlatList
+            data={scores}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <ScoreCard sheet={item} />}
+            contentContainerStyle={{ padding: 2, paddingBottom: 120 }}
+            onEndReached={endReached}
+            onEndReachedThreshold={0.5}
+            numColumns={1}
+            ListEmptyComponent={
+              loading
+                ? () => <CustomActivityIndicator />
+                : error
+                  ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
+                    Erreur Serveur
                   </Text>
-                ));
-              })()}
-            </View>
-          ))}
-        </ScrollView>
+                  : <Text className="text-white text-center mt-10">
+                    Aucun score trouvé.
+                  </Text>
+            }
+          />
+        </View>
+
       )
       }
     </View >
