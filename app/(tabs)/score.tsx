@@ -66,7 +66,7 @@ const score = () => {
       ) : error ? (
         <Text className='text-white'>Error Server</Text>
       ) : (
-        <View className="mx-5 pb-16">
+        <View className="mx-5 mt-6 pb-16">
 
           <Text className="text-2xl font-bold text-white text-center mb-6">
             Vos scores enregistrés

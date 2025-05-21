@@ -1,4 +1,4 @@
-import { ScoreSheetDTO } from '@/interfaces';
+import { ScoreDetailResponse, ScoreSheetDTO } from '@/interfaces';
 import Toast from 'react-native-toast-message';
 import { get_API_CONFIG } from '../api';
 
@@ -7,6 +7,24 @@ export const fetchScore = async (gameId?: number | null, page = 1) => {
     const endpoint = gameId
         ? `${API_CONFIG.BASE_URL}score/${gameId}?page=${page}`
         : `${API_CONFIG.BASE_URL}score?page=${page}`;
+
+    const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: API_CONFIG.headers,
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch games ${endpoint}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    return data;
+}
+
+export const fetchScoreDetail = async (scoreId: string): Promise<ScoreDetailResponse> => {
+    const API_CONFIG = await get_API_CONFIG();
+    const endpoint = `${API_CONFIG.BASE_URL}score/detail/${scoreId}`
 
     const response = await fetch(endpoint, {
         method: 'GET',

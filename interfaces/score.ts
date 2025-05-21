@@ -47,3 +47,34 @@ export interface ScoreSection {
         name: string;
     } | null;
 }
+
+export interface ScoreDetailResponse {
+
+    id: number;
+    game_id: number;
+    created_at: string;
+    updated_at: string;
+    game: {
+        id: number;
+        name: string;
+        img_path: string;
+    };
+    sections: {
+        id: number;
+        score_sheet_id: number;
+        guest_id: number | null;
+        user_id: number | null;
+        score: number;
+        created_at: string;
+        updated_at: string;
+        name: string;
+        guest: {
+            id: number;
+            name: string;
+        } | null;
+        user: {
+            id: number;
+            name: string;
+        } | null;
+    }[];
+}
