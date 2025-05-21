@@ -78,3 +78,15 @@ export interface ScoreDetailResponse {
         } | null;
     }[];
 }
+
+export interface SectionScore {
+    id: string;
+    score_sheet_id: string;
+    guest_id: string | null;
+    user_id: string | null;
+    score: string;
+    name: string;
+    guest: { id: string; name: string } | null;
+    user: { id: string; name: string } | null;
+}
+
