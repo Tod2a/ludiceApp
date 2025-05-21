@@ -8,7 +8,7 @@ interface Props {
     onAdd: (game: Game) => void;
 }
 
-const GamesAutoComplete: React.FC<Props> = ({ onAdd }) => {
+const LibraryGamesAutoComplete: React.FC<Props> = ({ onAdd }) => {
     const [input, setInput] = useState('');
     const [options, setOptions] = useState<Game[]>([]);
 
@@ -37,7 +37,7 @@ const GamesAutoComplete: React.FC<Props> = ({ onAdd }) => {
                         value={input}
                         onChangeText={setInput}
                         placeholderTextColor="#F9F6C0"
-                        className="bg-dark-100 text-yellow-100"
+                        className="bg-dark-100 text-yellow-100 rounded-full px-4"
                     />
                     {input.length > 0 && (
                         <TouchableOpacity
@@ -62,4 +62,4 @@ const GamesAutoComplete: React.FC<Props> = ({ onAdd }) => {
     )
 }
 
-export default GamesAutoComplete
+export default LibraryGamesAutoComplete

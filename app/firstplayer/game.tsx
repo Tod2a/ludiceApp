@@ -1,4 +1,4 @@
-import GamesAutoComplete from '@/components/autocompletes/LibraryGamesAutocomplete'
+import LibraryGamesAutoComplete from '@/components/autocompletes/LibraryGamesAutocomplete'
 import BackMenuButton from '@/components/buttons/BackMenuButton'
 import { images } from '@/constants/images'
 import { Game } from '@/interfaces'
@@ -29,7 +29,7 @@ const index = () => {
                 <View className='p-20'>
                     <Text className='text-yellow-200'>Pour quel jeu voulez-vous sélectionner le premier joueur?</Text>
                     <View className='pt-2'>
-                        <GamesAutoComplete onAdd={onAdd} />
+                        <LibraryGamesAutoComplete onAdd={onAdd} />
                     </View>
                 </View>
             </ScrollView>

@@ -1,17 +1,20 @@
+import LibraryGamesAutoComplete from '@/components/autocompletes/LibraryGamesAutocomplete'
 import CustomActivityIndicator from '@/components/CustomActivityIndicator'
 import { images } from '@/constants/images'
 import useFetch from '@/hooks/useFetch'
-import { ScoreSheet } from '@/interfaces'
+import { Game, ScoreSheet } from '@/interfaces'
 import { fetchScore } from '@/services/api/score'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, Text, View } from 'react-native'
 
 const score = () => {
+  const [searchGame, setSearchGame] = useState<Game | null>(null);
   const {
     data: scheets,
     loading,
-    error
-  } = useFetch(() => fetchScore(), true);
+    error,
+    refetch: loadScores,
+  } = useFetch(() => fetchScore(searchGame?.id), true);
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -22,6 +25,14 @@ const score = () => {
       hour: '2-digit',
       minute: '2-digit',
     }).format(date);
+  };
+
+  useEffect(() => {
+    loadScores();
+  }, [searchGame]);
+
+  const onAdd = (g: Game) => {
+    setSearchGame(g);
   };
 
   return (
@@ -43,6 +54,18 @@ const score = () => {
           <Text className="text-2xl font-bold text-white text-center mb-6">
             Vos scores enregistrés
           </Text>
+
+          <View className='pb-4'>
+            <LibraryGamesAutoComplete onAdd={onAdd} />
+            {searchGame && (
+              <Text
+                onPress={() => setSearchGame(null)}
+                className="text-yellow-100 text-right mt-2 underline"
+              >
+                Annuler la recherche
+              </Text>
+            )}
+          </View>
 
           {scheets?.data?.map((sheet: ScoreSheet) => (
             <View
