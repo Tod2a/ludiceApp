@@ -1,7 +1,7 @@
 // Even though this folder is called "interfaces", this file uses a type because a union is required.
 
 export interface ScoreSheetDTO {
-    gameId: number;
+    game_id: number;
     sections: SectionDTO[];
 }
 

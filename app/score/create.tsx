@@ -7,6 +7,7 @@ import { images } from '@/constants/images';
 import useFetch from '@/hooks/useFetch';
 import { Player, ScoreSheetDTO, SectionDTO } from '@/interfaces';
 import { fetchGamesDetails } from '@/services/api/game';
+import { storeScore } from '@/services/api/score';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -84,7 +85,7 @@ const create = () => {
         setSections(current => current.filter((_, i) => i !== index));
     };
 
-    const playerTotals = playerList.map((player, playerIndex) => {
+    const playerTotals = playerList.map((_, playerIndex) => {
         let total = 0;
         sections.forEach(section => {
             const score = section.scores[playerIndex]?.score ?? 0;
@@ -92,6 +93,21 @@ const create = () => {
         });
         return total;
     });
+
+    const saveScore = async () => {
+        const dto: ScoreSheetDTO = {
+            game_id: Number(gameId),
+            sections,
+        };
+
+        console.log('test');
+
+        const result = await storeScore(dto);
+
+        if (result.success) {
+            router.push('/score');
+        }
+    }
 
     return (
         <View className="flex-1 bg-primary">
@@ -174,19 +190,12 @@ const create = () => {
                             ))}
                         </View>
 
-                        <View className='mx-6'>
+                        <View className='mx-5'>
                             <View className='mb-2'>
                                 <PrimaryButton onPress={() => setModalVisible(true)} text='+ Ajouter une Section' />
                             </View>
 
-                            <PrimaryButton onPress={() => {
-                                const dto: ScoreSheetDTO = {
-                                    gameId: Number(gameId),
-                                    sections,
-                                };
-                                console.log('ScoreSheetDTO:', dto);
-                                console.log('score: ', dto.sections[0].scores);
-                            }} text='Sauvegarder le Score' />
+                            <PrimaryButton onPress={() => { saveScore() }} text='Sauvegarder le Score' />
 
                         </View>
 
