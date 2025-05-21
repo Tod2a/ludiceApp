@@ -14,5 +14,5 @@ export interface SectionDTO {
  * ScoreDTO: either user_id or guest_id is required, but not both.
  */
 export type ScoreDTO =
-    | { user_id: number; guest_id?: undefined; score: number }
-    | { guest_id: number; user_id?: undefined; score: number };
+    | { user_id: string; guest_id?: undefined; score: number }
+    | { guest_id: string; user_id?: undefined; score: number };
