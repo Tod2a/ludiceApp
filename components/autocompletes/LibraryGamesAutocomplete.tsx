@@ -14,7 +14,7 @@ const LibraryGamesAutoComplete: React.FC<Props> = ({ onAdd }) => {
 
     useEffect(() => {
         if (input.length >= 2) {
-            fetchLibraryGames({ query: input }).then((res) => {
+            fetchLibraryGames({ query: input, page: 1 }).then((res) => {
                 setOptions(res.library.data);
             });
         } else {

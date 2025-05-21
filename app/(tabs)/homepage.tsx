@@ -31,6 +31,8 @@ export default function Index() {
   useEffect(() => {
     setPage(1);
     const debouncedSearch = setTimeout(async () => {
+      setHasMore(true);
+      setGamesList([]);
       await loadGames();
     }, 500);
     return () => clearTimeout(debouncedSearch);

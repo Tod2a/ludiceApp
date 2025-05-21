@@ -14,6 +14,9 @@ import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 const library = () => {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
+    const [page, setPage] = useState(1);
+    const [gamesList, setGamesList] = useState<Game[]>([]);
+    const [hasMore, setHasMore] = useState(true);
 
     const {
         data: games,
@@ -21,16 +24,39 @@ const library = () => {
         error: error,
         refetch: loadGames,
     } = useFetch(() => fetchLibraryGames({
-        query: searchQuery
+        query: searchQuery,
+        page: page
     }), true);
 
     useEffect(() => {
-        const debouncedSearch = setTimeout(async () => {
-            await loadGames();
+        setPage(1);
+        const debouncedSearch = setTimeout(() => {
+            setHasMore(true);
+            setGamesList([]);
+            loadGames();
         }, 500);
-
         return () => clearTimeout(debouncedSearch);
-    }, [searchQuery])
+    }, [searchQuery]);
+    useEffect(() => {
+        if (page !== 1) {
+            loadGames();
+        }
+    }, [page]);
+
+    useEffect(() => {
+        if (games?.library.data) {
+            setGamesList(prevGames =>
+                page === 1 ? games.library.data : [...prevGames, ...games.library.data]
+            );
+            setHasMore(games.library.current_page < games.library.last_page);
+        }
+    }, [games]);
+
+    const endReached = () => {
+        if (hasMore && !loading) {
+            setPage(prevPage => prevPage + 1);
+        }
+    };
 
     return (
         <View className='flex-1 bg-primary'>
@@ -48,11 +74,11 @@ const library = () => {
             </View>
             <FlatList
                 className="my-5"
-                data={games?.library?.data || []}
-                renderItem={({ item }: { item: Game }) => (
-                    <LibraryCard {...item} onRemove={loadGames} />
-                )}
+                data={gamesList}
+                renderItem={({ item }: { item: Game }) => <LibraryCard {...item} />}
                 keyExtractor={(item) => item.id.toString()}
+                onEndReached={endReached}
+                onEndReachedThreshold={0.5}
                 numColumns={2}
                 columnWrapperStyle={{
                     justifyContent: "flex-start",
