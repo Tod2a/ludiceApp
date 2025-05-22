@@ -100,8 +100,6 @@ const create = () => {
             sections,
         };
 
-        console.log('test');
-
         const result = await storeScore(dto);
 
         if (result.success) {

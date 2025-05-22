@@ -45,9 +45,6 @@ export const storeScore = async (scoreSheet: ScoreSheetDTO): Promise<{ success: 
         const API_CONFIG = await get_API_CONFIG();
         const endpoint = `${API_CONFIG.BASE_URL}score`;
 
-        console.log(endpoint)
-        console.log('Sending request body:', JSON.stringify(scoreSheet, null, 2));
-
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: API_CONFIG.headers,
