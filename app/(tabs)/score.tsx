@@ -96,15 +96,9 @@ const score = () => {
             onEndReachedThreshold={0.5}
             numColumns={1}
             ListEmptyComponent={
-              loading
-                ? () => <CustomActivityIndicator />
-                : error
-                  ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
-                    Erreur Serveur
-                  </Text>
-                  : <Text className="text-white text-center mt-10">
-                    Aucun score trouvé.
-                  </Text>
+              <Text className="text-white text-center mt-10">
+                Aucun score trouvé.
+              </Text>
             }
           />
         </View>
