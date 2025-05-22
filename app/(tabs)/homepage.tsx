@@ -1,5 +1,5 @@
-import CustomActivityIndicator from "@/components/CustomActivityIndicator";
 import GameCard from "@/components/cards/GameCard";
+import CustomActivityIndicator from "@/components/CustomActivityIndicator";
 import RenderEmptyGameComponent from "@/components/RenderEmptyGameComponent";
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
@@ -46,9 +46,11 @@ export default function Index() {
 
   useEffect(() => {
     if (games?.data) {
-      setGamesList(prevGames =>
-        page === 1 ? games.data : [...prevGames, ...games.data]
-      );
+      setGamesList(prevGames => {
+        const existingIds = new Set(prevGames.map((g: Game) => g.id));
+        const newUniqueGames = (games.data as Game[]).filter((g: Game) => !existingIds.has(g.id));
+        return page === 1 ? (games.data as Game[]) : [...prevGames, ...newUniqueGames];
+      });
       setHasMore(games.current_page < games.last_page);
     }
   }, [games]);

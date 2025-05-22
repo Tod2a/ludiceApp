@@ -36,9 +36,12 @@ const score = () => {
 
   useEffect(() => {
     if (scheets?.data) {
-      setScores(prevScores =>
-        page === 1 ? scheets.data : [...prevScores, ...scheets.data]
-      );
+      setScores((prevScores: ScoreSheet[]) => {
+        const existingIds = new Set(prevScores.map((s: ScoreSheet) => s.id));
+        const newUniqueScores = (scheets.data as ScoreSheet[]).filter((s: ScoreSheet) => !existingIds.has(s.id));
+        return page === 1 ? (scheets.data as ScoreSheet[]) : [...prevScores, ...newUniqueScores];
+      });
+
       setHasMore(scheets.current_page < scheets.last_page);
     }
   }, [scheets]);

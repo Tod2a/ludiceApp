@@ -37,7 +37,7 @@ const library = () => {
         }, 500);
         return () => clearTimeout(debouncedSearch);
     }, [searchQuery]);
-    
+
     useEffect(() => {
         if (page !== 1) {
             loadGames();
@@ -46,9 +46,13 @@ const library = () => {
 
     useEffect(() => {
         if (games?.library.data) {
-            setGamesList(prevGames =>
-                page === 1 ? games.library.data : [...prevGames, ...games.library.data]
-            );
+            setGamesList(prevGames => {
+                const existingIds = new Set(prevGames.map((g: Game) => g.id));
+                const newUniqueGames = (games.library.data as Game[]).filter((g: Game) => !existingIds.has(g.id));
+                return page === 1
+                    ? (games.library.data as Game[])
+                    : [...prevGames, ...newUniqueGames];
+            });
             setHasMore(games.library.current_page < games.library.last_page);
         }
     }, [games]);
