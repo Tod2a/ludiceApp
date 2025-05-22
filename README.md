@@ -12,6 +12,69 @@
 
 ---
 
+## 🗂️ Project Structure
+
+```
+.vscode/                      // Editor configuration files (VSCode settings)
+app/                         // Main app folder using Expo Router (file-based routing)
+├── (tabs)/                  // Tab navigation screens (shown after login)
+│   ├── homepage.tsx         // Home screen inside tabs
+│   ├── score.tsx            // Score tab screen
+│   ├── profile.tsx          // Profile tab screen
+│   ├── search.tsx           // Search tab screen
+│   └── _layout.tsx          // Layout for tab screens (defines tabs structure)
+├── firstplayer/             // Additional route folder with screens related to "First Player" feature
+├── games/                   // Games-related routes
+│   └── [id].tsx             // Dynamic route: Game detail page by game ID
+├── score/                   // Additional route folder for score-related pages
+├── _layout.tsx              // Global layout wrapping the entire app, includes routing setup (stack screens)
+├── global.css               // Tailwind CSS imports and global styles
+├── index.tsx                // Login page (initial app entry)
+└── library.tsx              // Library page to manage game collection
+
+assets/                      // Static assets (fonts, icons, images)
+├── fonts/                   // Custom fonts
+├── icons/                   // Icons used throughout the app
+└── images/                  // Other images
+
+components/                  // Reusable UI components
+├── autocompletes/           // Autocomplete input components
+├── buttons/                 // Button components
+├── cards/                   // Card UI components (game cards, etc.)
+├── inputs/                  // Input components (text fields, selectors)
+├── modals/                  // Modal dialog components
+└── ...                      // Other shared components like searchbar.tsx, TabIcon.tsx, etc.
+
+constant/                    // Static constants like icons and images mappings
+├── icons.ts                 // Icon constants
+└── images.ts                // Image constants
+
+hooks/                       // Custom React hooks
+└── useFetch.ts              // Hook for data fetching
+
+interfaces/                  // TypeScript interfaces and types
+├── auth.ts                  // Authentication-related interfaces
+├── games.ts                 // Game-related interfaces
+├── index.ts                 // Global export file for all interfaces
+└── ...                      // Other interface files
+
+services/                    // API service logic
+├── api/                     // Individual API service files
+│   ├── auth.ts              // Auth API calls
+│   ├── games.ts             // Games API calls
+│   └── ...                  // Other API services
+└── api.ts                   // Global API configuration (axios or fetch setup)
+
+types/                       // Custom TypeScript type declarations
+└── images.d.ts              // Type declarations related to images (e.g., imported image modules)
+
+utils/                       // Utility functions and helpers
+└── auth.ts                  // Authentication utilities (e.g., getAuthToken, isAuthenticated, etc.)
+
+```
+
+---
+
 ## 🚀 Getting Started
 
 1. **Install dependencies**
