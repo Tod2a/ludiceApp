@@ -64,17 +64,15 @@ const score = () => {
 
     <View className='flex-1 bg-primary'>
       <Image source={images.bg} className="absolute w-full z-0" />
+      <Text className="text-2xl font-bold text-white text-center mt-6 mb-6">
+        Vos scores enregistrés
+      </Text>
       {loading ? (
         <CustomActivityIndicator />
       ) : error ? (
         <Text className='text-white'>Error Server</Text>
       ) : (
-        <View className="mx-5 mt-6 pb-16">
-
-          <Text className="text-2xl font-bold text-white text-center mb-6">
-            Vos scores enregistrés
-          </Text>
-
+        <View className="mx-5  pb-16">
           <View className='pb-4'>
             <LibraryGamesAutoComplete onAdd={onAdd} />
             {searchGame && (
