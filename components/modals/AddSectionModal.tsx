@@ -43,16 +43,16 @@ const AddSectionModal: React.FC<AddSectionModalProps> = ({
         <Modal visible={visible} transparent animationType="slide">
             <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
                 <View className="bg-white p-5 rounded-lg w-72">
-                    <Text className="mb-2 font-bold text-lg">Enter Section Name</Text>
+                    <Text className="mb-2 font-bold text-lg">Entrez le nom de la section</Text>
                     <TextInput
-                        placeholder="Section name"
+                        placeholder="Nom de la section"
                         value={sectionName}
                         onChangeText={setSectionName}
                         className="border border-gray-300 p-3 mb-5 rounded"
                     />
-                    <Button title="Add Section" onPress={handleAdd} />
+                    <Button title="Ajouter la section" onPress={handleAdd} />
                     <TouchableOpacity onPress={handleClose} className="mt-3 items-center">
-                        <Text className="text-red-500">Cancel</Text>
+                        <Text className="text-red-500">Annuler</Text>
                     </TouchableOpacity>
                 </View>
             </View>
