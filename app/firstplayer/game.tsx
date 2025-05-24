@@ -27,7 +27,7 @@ const index = () => {
                 paddingBottom: 60,
             }}>
                 <View className='p-20'>
-                    <Text className='text-yellow-200'>Pour quel jeu voulez-vous sélectionner le premier joueur?</Text>
+                    <Text className='text-yellow-200'>Pour quel jeu voulez-vous préparer une partie?</Text>
                     <View className='pt-2'>
                         <LibraryGamesAutoComplete onAdd={onAdd} />
                     </View>

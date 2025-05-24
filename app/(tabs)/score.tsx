@@ -5,14 +5,16 @@ import { images } from '@/constants/images'
 import useFetch from '@/hooks/useFetch'
 import { Game, ScoreSheet } from '@/interfaces'
 import { fetchScore } from '@/services/api/score'
+import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { FlatList, Image, Text, View } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 
 const score = () => {
   const [searchGame, setSearchGame] = useState<Game | null>(null);
   const [page, setPage] = useState(1);
   const [scores, setScores] = useState<ScoreSheet[]>([]);
   const [hasMore, setHasMore] = useState(true);
+  const router = useRouter();
 
   const {
     data: scheets,
@@ -73,6 +75,11 @@ const score = () => {
         <Text className='text-white'>Error Server</Text>
       ) : (
         <View className="mx-5  pb-16">
+          <View className='mb-2 mx-2'>
+            <TouchableOpacity onPress={() => { router.push("/firstplayer/game") }}>
+              <Text className="text-sm text-yellow-200 underline">Enregistrer un score</Text>
+            </TouchableOpacity>
+          </View>
           <View className='pb-4'>
             <LibraryGamesAutoComplete onAdd={onAdd} />
             {searchGame && (
