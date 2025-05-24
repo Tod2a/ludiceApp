@@ -1,5 +1,6 @@
 import GuestAutomcomplete from '@/components/autocompletes/GuestAutocomplete';
 import BackMenuButton from '@/components/buttons/BackMenuButton';
+import LinkButton from '@/components/buttons/LinkButton';
 import NewGuestModal from '@/components/modals/NewGuestModal';
 import { images } from '@/constants/images';
 import useFetch from '@/hooks/useFetch';
@@ -104,9 +105,7 @@ const SelectFirstPlayer = () => {
                 <View className='mx-5'>
                     <View className="flex-row items-center justify-between mb-2">
                         <Text className="text-l text-yellow-200">Qui va jouer ?</Text>
-                        <TouchableOpacity onPress={() => setModalVisible(true)}>
-                            <Text className="text-sm text-yellow-200 underline">Créer un invité</Text>
-                        </TouchableOpacity>
+                        <LinkButton onPress={() => setModalVisible(true)} text='Créer un invité' />
                     </View>
                     <View className='mb-2'>
                         <GuestAutomcomplete
