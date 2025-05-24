@@ -1,5 +1,6 @@
 import BackMenuButton from '@/components/buttons/BackMenuButton';
 import PrimaryButton from '@/components/buttons/PrimaryButton';
+import GameLiteCard from '@/components/cards/GameLiteCard';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import AddSectionModal from '@/components/modals/AddSectionModal';
 import { icons } from '@/constants/icons';
@@ -15,7 +16,6 @@ import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'reac
 const create = () => {
     const { players, gameId } = useLocalSearchParams<{ players: string; gameId: string }>();
     const [playerList, setPlayerList] = useState<Player[]>([]);
-    const base_url = process.env.EXPO_PUBLIC_API_URL ?? 'https://ludice.app/';
     const router = useRouter();
     const {
         data: game,
@@ -125,19 +125,11 @@ const create = () => {
                         <Text className="text-2xl font-bold text-white text-center mb-6">
                             Enregistrer le score
                         </Text>
-                        <View className="mt-2 bg-dark-200 rounded-xl p-4 w-11/12 self-center shadow-lg shadow-black/50">
 
-                            <Text className="text-white text-xl font-bold text-center mb-3">
-                                {game?.name}
-                            </Text>
-
-                            <Image
-                                source={{ uri: `${base_url}${game?.img_path}` }}
-                                className="w-full h-48 rounded-lg mb-4"
-                                resizeMode="cover"
-                            />
-                        </View>
-
+                        <GameLiteCard
+                            name={game?.name ?? ''}
+                            img={game?.img_path ?? ''}
+                        />
 
                         <ScrollView horizontal contentContainerStyle={{ paddingHorizontal: 10, marginBottom: 20, marginTop: 10, marginHorizontal: 6 }}>
 

@@ -20,7 +20,7 @@ const search = () => {
   const [selectedMechanics, setSelectedMechanics] = useState<Mechanic[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [resetCounter, setResetCounter] = useState(0);
-  const base_url = process.env.EXPO_PUBLIC_API_URL;
+  const base_url = process.env.EXPO_PUBLIC_API_URL ?? 'https://ludice.app/';;
   const router = useRouter();
 
   var requestParams = {
