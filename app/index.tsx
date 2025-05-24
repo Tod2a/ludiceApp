@@ -70,6 +70,9 @@ export default function LoginPage() {
                         onChangeText={setPassword}
                         secureTextEntry
                         editable={!loading}
+                        keyboardType="default"
+                        textContentType="password"
+                        autoComplete="password"
                     />
                     <TouchableOpacity
                         className="mt-5 bottom-5 left-0 right-0 bg-green-400 rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
