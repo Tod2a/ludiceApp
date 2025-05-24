@@ -6,8 +6,8 @@ interface Props {
     img: string;
 }
 
-const GameLightCard = ({ name, img }: Props) => {
-    const base_url = process.env.EXPO_PUBLIC_API_URL;
+const GameLiteCard = ({ name, img }: Props) => {
+    const base_url = process.env.EXPO_PUBLIC_API_URL ?? 'https://ludice.app/';
 
     return (
         <View className="mt-2 bg-dark-200 rounded-xl p-4 w-11/12 self-center shadow-lg shadow-black/50">
@@ -25,4 +25,4 @@ const GameLightCard = ({ name, img }: Props) => {
     )
 }
 
-export default GameLightCard
+export default GameLiteCard

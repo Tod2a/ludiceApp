@@ -1,5 +1,5 @@
 import BackMenuButton from '@/components/buttons/BackMenuButton'
-import GameLightCard from '@/components/cards/GameLightCard'
+import GameLightCard from '@/components/cards/GameLiteCard'
 import CustomActivityIndicator from '@/components/CustomActivityIndicator'
 import ScoreSheetDetailTable from '@/components/ScoreSheetDetail'
 import { images } from '@/constants/images'

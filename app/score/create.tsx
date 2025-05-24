@@ -15,7 +15,7 @@ import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'reac
 const create = () => {
     const { players, gameId } = useLocalSearchParams<{ players: string; gameId: string }>();
     const [playerList, setPlayerList] = useState<Player[]>([]);
-    const base_url = process.env.EXPO_PUBLIC_API_URL;
+    const base_url = process.env.EXPO_PUBLIC_API_URL ?? 'https://ludice.app/';
     const router = useRouter();
     const {
         data: game,

@@ -14,7 +14,7 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 const SelectFirstPlayer = () => {
     const { id } = useLocalSearchParams();
     const router = useRouter();
-    const base_url = process.env.EXPO_PUBLIC_API_URL;
+    const base_url = process.env.EXPO_PUBLIC_API_URL ?? 'https://ludice.app/';
     const { data: game, loading } = useFetch(() => fetchGamesDetails(id as string));
     const [modalVisible, setModalVisible] = useState(false);
 
