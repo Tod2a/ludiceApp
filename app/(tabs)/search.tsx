@@ -75,7 +75,7 @@ const search = () => {
           />
 
           <NumericInput
-            placeholder='Temps de jeu'
+            placeholder='Temps de jeu(minutes)'
             value={duration}
             onChangeText={(text) => setDuration(text)}
           />
