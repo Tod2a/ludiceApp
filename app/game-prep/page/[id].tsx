@@ -94,7 +94,9 @@ const SelectFirstPlayer = () => {
     return (
         <View className="flex-1 bg-primary">
             <Image source={images.bg} className="absolute w-full z-0" />
+
             <Text className="text-3xl font-bold text-white text-center mt-8 mb-1">Préparation de partie</Text>
+
             <ScrollView contentContainerStyle={{
                 flexGrow: 1,
                 alignContent: 'center',
@@ -103,11 +105,17 @@ const SelectFirstPlayer = () => {
             }}>
 
                 <View className='mx-5'>
+
                     <View className="flex-row items-center justify-between mb-2">
+
                         <Text className="text-l text-yellow-200">Qui va jouer ?</Text>
+
                         <LinkButton onPress={() => setModalVisible(true)} text='Créer un invité' />
+
                     </View>
+
                     <View className='mb-2'>
+
                         <GuestAutomcomplete
                             selected={selectedGuest}
                             onAdd={(g) => setSelectedGuest((prev) => [...prev, g])}
@@ -116,19 +124,24 @@ const SelectFirstPlayer = () => {
                             }
                             resetSignal={resetCounter}
                         />
+
                     </View>
+
                 </View>
 
                 {selectedFirstPlayer ? (
                     <View className="px-5 mt-4 mb-2">
+
                         <Text className="text-yellow-100 text-center text-lg">
                             Premier joueur : {selectedFirstPlayer.name}
                         </Text>
+
                     </View>
                 ) : (
                     <View className="h-6" />
                 )}
                 <View className="flex-row justify-between px-5 mt-4 mb-2 gap-4">
+
                     <TouchableOpacity
                         className="bg-dark-200 px-4 py-3 rounded-xl flex-1"
                         onPress={() => { selectFirstPlayer() }}

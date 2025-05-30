@@ -1,14 +1,14 @@
+import BackMenuButton from '@/components/buttons/BackMenuButton';
 import SecondaryButton from '@/components/buttons/SecondaryButton';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import GameInfo from '@/components/GameInfo';
-import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import useFetch from '@/hooks/useFetch';
 import { fetchGamesDetails } from '@/services/api/game';
 import { storeGameLibrary } from '@/services/api/library';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 
 const GameDetails = () => {
 
@@ -58,6 +58,7 @@ const GameDetails = () => {
                             : <SecondaryButton text='Ajouter à votre Ludothèque' onPress={addLibrary} />
                         }
                     </View>
+
                     <Image
                         source={{
                             uri: game.img_path
@@ -121,17 +122,7 @@ const GameDetails = () => {
                 </View>
             </ScrollView>
 
-            <TouchableOpacity
-                className="absolute bottom-5 left-0 right-0 mx-5 bg-green-400 rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
-                onPress={router.back}
-            >
-                <Image
-                    source={icons.arrow}
-                    className="size-5 mr-1 mt-0.5 rotate-180"
-                    tintColor="#fff"
-                />
-                <Text className="text-white font-semibold text-base">Retour</Text>
-            </TouchableOpacity>
+            <BackMenuButton text='Retour' onPress={router.back} />
 
         </View>
     );

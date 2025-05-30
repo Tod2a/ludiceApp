@@ -171,16 +171,20 @@ const create = () => {
                         </ScrollView>
 
                         <View className="mb-8 bg-dark-100 rounded-xl p-4 w-11/12 self-center shadow-lg shadow-black/50">
+
                             <Text className="text-white font-bold text-lg mb-2">Total Scores</Text>
+
                             {playerList.map((player, index) => (
                                 <View key={index} className="flex-row justify-between items-center mb-1">
                                     <Text className="text-white">{player.name}</Text>
                                     <Text className="text-white font-bold">{playerTotals[index]}</Text>
                                 </View>
                             ))}
+
                         </View>
 
                         <View className='mx-5'>
+
                             <View className='mb-2'>
                                 <PrimaryButton onPress={() => setModalVisible(true)} text='+ Ajouter une Section' />
                             </View>
@@ -206,6 +210,7 @@ const create = () => {
                 text="Retour à l'accueil"
                 onPress={() => { router.push('/') }}
             />
+
         </View>
     )
 }

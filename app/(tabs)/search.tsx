@@ -1,6 +1,7 @@
 import CategoriesAutoComplete from '@/components/autocompletes/CategoriesAutocomplete';
 import MechanicsAutocomplete from '@/components/autocompletes/MechanicsAutocomplete';
 import PrimaryButton from '@/components/buttons/PrimaryButton';
+import SecondaryButton from '@/components/buttons/SecondaryButton';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import NumericInput from '@/components/inputs/NumericInput';
 import { images } from '@/constants/images';
@@ -10,7 +11,7 @@ import { fetchRandomGame } from '@/services/api/game';
 import { useFocusEffect } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
-import { Image, Keyboard, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Keyboard, ScrollView, Text, View } from 'react-native';
 
 
 const search = () => {
@@ -132,16 +133,17 @@ const search = () => {
                   />
 
                   <View className="flex-row justify-between mt-4">
-                    <TouchableOpacity
-                      className="flex-1 p-3 mr-2 bg-green-600 rounded-lg shadow-lg items-center"
-                      onPress={() => router.push({
-                        pathname: '/game-prep/page/[id]',
-                        params: { id: gameResponse.game.id },
-                      })}
-                    >
-                      <Text className="text-white font-semibold">Préparer la partie</Text>
-                    </TouchableOpacity>
+                    <View className='flex-1'>
 
+                      <SecondaryButton
+                        text='Préparer la partie'
+                        onPress={() => router.push({
+                          pathname: '/game-prep/page/[id]',
+                          params: { id: gameResponse.game.id },
+                        })}
+                      />
+
+                    </View>
                   </View>
                 </View>
               ) : (

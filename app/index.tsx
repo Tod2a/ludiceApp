@@ -1,3 +1,4 @@
+import PrimaryButton from '@/components/buttons/PrimaryButton';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
@@ -5,7 +6,7 @@ import { login } from '@/services/api/auth';
 import { isAuthenticated as checkIfAuthenticated } from '@/utils/auth';
 import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Alert, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Linking, ScrollView, Text, TextInput, View } from 'react-native';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -52,8 +53,11 @@ export default function LoginPage() {
             <Image source={images.bg} className="absolute w-full z-0" />
             <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
                 <View className='justify-center p-20'>
+
                     <Image source={icons.logo} resizeMode='contain' className='self-center w-48 h-64' />
-                    <Text className='my-8 text-white'>Email:</Text>
+
+                    <Text className='mt-8 mb-4 text-white'>Email:</Text>
+
                     <TextInput
                         className="border border-dark-100 mb-3 p-2 rounded bg-white"
                         value={email}
@@ -62,7 +66,9 @@ export default function LoginPage() {
                         keyboardType="email-address"
                         editable={!loading}
                     />
-                    <Text className='mb-8 text-white'>Password:</Text>
+
+                    <Text className='mb-4 text-white'>Password:</Text>
+
                     <TextInput
                         className="border border-dark-100 mb-3 p-2 rounded bg-white"
                         value={password}
@@ -73,16 +79,16 @@ export default function LoginPage() {
                         textContentType="password"
                         autoComplete="password"
                     />
-                    <TouchableOpacity
-                        className="mt-5 bottom-5 left-0 right-0 bg-green-400 rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
-                        onPress={handleLogin}
-                    >
-                        <Text className="text-white font-semibold text-base">{loading ? "Logging in..." : "Login"}</Text>
-                    </TouchableOpacity>
+
+                    <View className='mt-6'>
+                        <PrimaryButton text={loading ? "Logging in..." : "Login"} onPress={handleLogin} />
+                    </View>
+
                     <Text className='text-white'>
                         Pas encore de compte ? Créez-en un sur
                         <Text className='text-green-200' onPress={() => Linking.openURL('https://ludice.app/register')}> notre site web</Text>
                     </Text>
+
                 </View>
             </ScrollView>
         </View>

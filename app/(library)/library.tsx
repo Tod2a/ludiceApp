@@ -1,15 +1,15 @@
+import BackMenuButton from '@/components/buttons/BackMenuButton';
 import LibraryCard from '@/components/cards/LibraryCard';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import RenderEmptyGameComponent from '@/components/RenderEmptyGameComponent';
 import SearchBar from '@/components/SearchBar';
-import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import useFetch from '@/hooks/useFetch';
 import { Game } from '@/interfaces';
 import { fetchLibraryGames } from '@/services/api/library';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Text, View } from 'react-native';
 
 const library = () => {
     const router = useRouter();
@@ -107,17 +107,8 @@ const library = () => {
                 }
             />
 
-            <TouchableOpacity
-                className="absolute bottom-5 left-0 right-0 mx-5 bg-green-400 rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
-                onPress={() => router.push('/(tabs)/homepage')}
-            >
-                <Image
-                    source={icons.arrow}
-                    className="size-5 mr-1 mt-0.5 rotate-180"
-                    tintColor="#fff"
-                />
-                <Text className="text-white font-semibold text-base">Retour à l’écran d’accueil</Text>
-            </TouchableOpacity>
+            <BackMenuButton text='Retour à l’écran d’accueil' onPress={() => router.push('/(tabs)/homepage')} />
+
         </View>
     )
 }
