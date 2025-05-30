@@ -77,7 +77,7 @@ const score = () => {
       ) : (
         <View className="mx-5 pb-24">
           <View className='mb-2 mx-2'>
-            <LinkButton onPress={() => { router.push("/firstplayer/game") }} text='Enregistrer un score' />
+            <LinkButton onPress={() => { router.push("/game-prep/game") }} text='Enregistrer un score' />
           </View>
           <View className='pb-4'>
             <LibraryGamesAutoComplete onAdd={onAdd} />

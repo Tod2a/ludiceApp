@@ -135,13 +135,12 @@ const search = () => {
                     <TouchableOpacity
                       className="flex-1 p-3 mr-2 bg-green-600 rounded-lg shadow-lg items-center"
                       onPress={() => router.push({
-                        pathname: '/firstplayer/select/[id]',
+                        pathname: '/game-prep/page/[id]',
                         params: { id: gameResponse.game.id },
                       })}
                     >
-                      <Text className="text-white font-semibold">Choisir premier joueur / Enregistrer le score</Text>
+                      <Text className="text-white font-semibold">Préparer la partie</Text>
                     </TouchableOpacity>
-
 
                   </View>
                 </View>

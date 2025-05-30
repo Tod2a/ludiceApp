@@ -67,8 +67,8 @@ const profile = () => {
 
         <View className='mt-5 mx-5'>
           <PrimaryButton
-            text="Choisir un premier joueur aléatoire"
-            onPress={() => router.push("/firstplayer/game")}
+            text="Préparer une partie"
+            onPress={() => router.push("/game-prep/game")}
           />
         </View>
 

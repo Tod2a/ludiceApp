@@ -11,7 +11,7 @@ const index = () => {
 
     const onAdd = (g: Game) => {
         router.push({
-            pathname: '/firstplayer/select/[id]',
+            pathname: '/game-prep/page/[id]',
             params: { id: g.id },
         })
     };

@@ -25,11 +25,11 @@ export default function RootLayout() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="library"
+            name="(library)"
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="firstplayer"
+            name="game-prep"
             options={{ headerShown: false }}
           />
           <Stack.Screen
