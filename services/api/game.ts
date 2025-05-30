@@ -1,4 +1,4 @@
-import { Game, GameResponse, RandomGameRequestParams } from '@/interfaces';
+import { GameDetail, GameResponse, RandomGameRequestParams } from '@/interfaces';
 import { get_API_CONFIG } from '../api';
 
 export const fetchGames = async ({ query, page = 1 }: { query: string, page: number }) => {
@@ -19,7 +19,7 @@ export const fetchGames = async ({ query, page = 1 }: { query: string, page: num
     return data;
 }
 
-export const fetchGamesDetails = async (gameId: string): Promise<Game> => {
+export const fetchGamesDetails = async (gameId: string): Promise<GameDetail> => {
     const API_CONFIG = await get_API_CONFIG();
     const endpoint = `${API_CONFIG.BASE_URL}game/${gameId}`
     try {

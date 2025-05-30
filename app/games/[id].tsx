@@ -1,4 +1,4 @@
-
+import SecondaryButton from '@/components/buttons/SecondaryButton';
 import CustomActivityIndicator from '@/components/CustomActivityIndicator';
 import GameInfo from '@/components/GameInfo';
 import { icons } from '@/constants/icons';
@@ -7,7 +7,7 @@ import useFetch from '@/hooks/useFetch';
 import { fetchGamesDetails } from '@/services/api/game';
 import { storeGameLibrary } from '@/services/api/library';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 const GameDetails = () => {
@@ -16,9 +16,17 @@ const GameDetails = () => {
     const { id } = useLocalSearchParams();
     const { data: game, loading } = useFetch(() => fetchGamesDetails(id as string));
     const router = useRouter();
+    const [inLibrary, setInLibrary] = useState(game?.in_library);
+
+    useEffect(() => {
+        setInLibrary(game?.in_library);
+    }, [game])
 
     const addLibrary = async () => {
-        await storeGameLibrary(id as string);
+        const result = await storeGameLibrary(id as string);
+        if (result) {
+            setInLibrary(true);
+        }
     }
 
     if (loading) {
@@ -45,12 +53,10 @@ const GameDetails = () => {
 
                 <View className=" mx-4 shadow-md p-6">
                     <View className='mb-2'>
-                        <TouchableOpacity
-                            className="bg-green-200 rounded-lg py-3.5 items-center justify-center z-50"
-                            onPress={addLibrary}
-                        >
-                            <Text className="font-semibold text-base">Ajouter à votre Ludothèque</Text>
-                        </TouchableOpacity>
+                        {inLibrary
+                            ? <Text className='text-yellow-200 text-center'>Déjà dans la Ludothèque</Text>
+                            : <SecondaryButton text='Ajouter à votre Ludothèque' onPress={addLibrary} />
+                        }
                     </View>
                     <Image
                         source={{
