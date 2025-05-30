@@ -17,20 +17,21 @@
 ```
 .vscode/                      // Editor configuration files (VSCode settings)
 app/                         // Main app folder using Expo Router (file-based routing)
+├── (library)/
+    └── library.tsx          // Library page to manage game collection
 ├── (tabs)/                  // Tab navigation screens (shown after login)
 │   ├── homepage.tsx         // Home screen inside tabs
 │   ├── score.tsx            // Score tab screen
 │   ├── profile.tsx          // Profile tab screen
 │   ├── search.tsx           // Search tab screen
 │   └── _layout.tsx          // Layout for tab screens (defines tabs structure)
-├── firstplayer/             // Additional route folder with screens related to "First Player" feature
+├── game-prep/               // Additional route folder with screens related to game preparation feature
 ├── games/                   // Games-related routes
 │   └── [id].tsx             // Dynamic route: Game detail page by game ID
 ├── score/                   // Additional route folder for score-related pages
 ├── _layout.tsx              // Global layout wrapping the entire app, includes routing setup (stack screens)
 ├── global.css               // Tailwind CSS imports and global styles
 ├── index.tsx                // Login page (initial app entry)
-└── library.tsx              // Library page to manage game collection
 
 assets/                      // Static assets (fonts, icons, images)
 ├── fonts/                   // Custom fonts
@@ -77,17 +78,42 @@ utils/                       // Utility functions and helpers
 
 ## 🚀 Getting Started
 
-1. **Install dependencies**
+### 1. Clone the repository
 
-   ```bash
-   npm install
-   ```
+```bash
+git clone <REPOSITORY_URL>
+cd <PROJECT_DIRECTORY>
+```
 
-2. **Start the app**
+### 2. Install dependencies
 
-   ```bash
-   npx expo start
-   ```
+```bash
+npm install
+```
+
+### 3. Configure environment variables
+
+* Copy the example environment file:
+
+  ```bash
+  cp .env.example .env
+  ```
+
+* Open the `.env` file and set the `EXPO_PUBLIC_API_URL` variable:
+
+  ```env
+  EXPO_PUBLIC_API_URL=http://apiurl.test
+  ```
+
+  Replace the URL with the appropriate one for your environment (e.g., `https://tst.ludice.app` for a test environment or or `https://ludice.app` for production)..
+
+### 4. Start the app
+
+```bash
+npx expo start
+```
+
+This command starts the Expo development server and generates a QR code.
 
 Once running, you’ll be able to open the app in:
 
