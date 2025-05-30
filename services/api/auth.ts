@@ -16,9 +16,8 @@ export const login = async ({ email, password }: LoginCredentials) => {
     });
 
     if (!response.ok) {
-        const errorText = await response.text();
-        console.log('Login failed response:', errorText);
-        throw new Error(`Login failed ${endpoint}: ${response.statusText} - ${errorText}`);
+        const errorText = await response.json();
+        throw new Error(` ${errorText.message}`);
     }
 
     const data = await response.json();

@@ -29,8 +29,7 @@ export default function LoginPage() {
             await login({ email, password });
             setIsAuthenticated(true);
         } catch (error: any) {
-            console.log(error?.message);
-            Alert.alert('Login failed', 'An error occurred');
+            Alert.alert('Erreur de connexion', error?.message);
         } finally {
             setLoading(false);
         }
