@@ -12,7 +12,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { Image, Keyboard, ScrollView, Text, View } from 'react-native';
-
+import { logEvent } from '../../utils/firebaseWrapper';
 
 const search = () => {
   const [players, setPlayers] = useState('');
@@ -44,6 +44,10 @@ const search = () => {
   const loadRandomGame = async () => {
     Keyboard.dismiss();
     await loadGame()
+    logEvent('selected_game', {
+      game_id: gameResponse?.game.id,
+      method: 'random_pick',
+    });
   };
 
   useFocusEffect(

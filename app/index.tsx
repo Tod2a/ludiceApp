@@ -7,6 +7,7 @@ import { isAuthenticated as checkIfAuthenticated } from '@/utils/auth';
 import { Redirect } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert, Image, Linking, ScrollView, Text, TextInput, View } from 'react-native';
+import { logEvent } from '../utils/firebaseWrapper';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        logEvent('app_start');
         const checkAuth = async () => {
             const authenticated = await checkIfAuthenticated();
             setIsAuthenticated(authenticated);
