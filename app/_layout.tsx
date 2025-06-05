@@ -8,7 +8,9 @@ import "./globals.css";
 export default function RootLayout() {
   useEffect(() => {
     NavigationBar.setVisibilityAsync("hidden");
-    //NavigationBar.setBehaviorAsync("immersive"); 
+    //NavigationBar.setBehaviorAsync("immersive-sticky");
+
+    StatusBar.setHidden(true, 'fade');
   }, []);
 
   return (

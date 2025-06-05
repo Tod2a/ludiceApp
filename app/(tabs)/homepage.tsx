@@ -7,7 +7,6 @@ import { images } from "@/constants/images";
 import useFetch from "@/hooks/useFetch";
 import { Game } from "@/interfaces";
 import { fetchGames } from "@/services/api/game";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
@@ -18,7 +17,6 @@ export default function Index() {
   const [gamesList, setGamesList] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
-  const tabBarHeight = useBottomTabBarHeight();
 
   const {
     data: games,
@@ -99,7 +97,7 @@ export default function Index() {
           paddingRight: 5,
           marginBottom: 10
         }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: tabBarHeight }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 30 }}
         ListEmptyComponent={
           gamesLoading
             ? <CustomActivityIndicator />
