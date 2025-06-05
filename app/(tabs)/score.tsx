@@ -6,15 +6,17 @@ import { images } from '@/constants/images'
 import useFetch from '@/hooks/useFetch'
 import { Game, ScoreSheet } from '@/interfaces'
 import { fetchScore } from '@/services/api/score'
+import { useFocusEffect } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, Image, Text, View } from 'react-native'
 
-const score = () => {
+const Score = () => {
   const [searchGame, setSearchGame] = useState<Game | null>(null);
   const [page, setPage] = useState(1);
   const [scores, setScores] = useState<ScoreSheet[]>([]);
   const [hasMore, setHasMore] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const router = useRouter();
 
   const {
@@ -24,16 +26,23 @@ const score = () => {
     refetch: loadScores,
   } = useFetch(() => fetchScore(searchGame?.id, page), true);
 
-  useEffect(() => {
-    setPage(1);
-    setHasMore(true);
-    setScores([]);
-    loadScores();
-  }, [searchGame]);
+  useFocusEffect(
+    useCallback(() => {
+      setPage(1);
+      setScores([]);
+      setHasMore(true);
+      loadScores();
+    }, [searchGame])
+  );
 
   useEffect(() => {
     if (page !== 1) {
-      loadScores();
+      const fetchData = async () => {
+        setIsFetching(true);
+        await loadScores();
+        setIsFetching(false);
+      };
+      fetchData();
     }
   }, [page]);
 
@@ -44,38 +53,42 @@ const score = () => {
         const newUniqueScores = (scheets.data as ScoreSheet[]).filter((s: ScoreSheet) => !existingIds.has(s.id));
         return page === 1 ? (scheets.data as ScoreSheet[]) : [...prevScores, ...newUniqueScores];
       });
-
       setHasMore(scheets.current_page < scheets.last_page);
     }
   }, [scheets]);
 
   const endReached = () => {
-    if (hasMore && !loading) {
+    if (hasMore && !loading && !isFetching) {
       setPage(prevPage => prevPage + 1);
     }
   };
 
   const onAdd = (g: Game) => {
     setSearchGame(g);
+    setPage(1);
+    setScores([]);
+    setHasMore(true);
   };
 
   const clearResearch = () => {
     setSearchGame(null);
+    setPage(1);
+    setScores([]);
+    setHasMore(true);
   };
 
   return (
-
     <View className='flex-1 bg-primary'>
       <Image source={images.bg} className="absolute w-full z-0" />
 
       <Text className="text-2xl font-bold text-white text-center mt-6 mb-6">
         Vos scores enregistrés
       </Text>
-      
-      {loading ? (
+
+      {loading && page === 1 ? (
         <CustomActivityIndicator />
       ) : error ? (
-        <Text className='text-white'>Error Server</Text>
+        <Text className='text-white'>Erreur serveur</Text>
       ) : (
         <View className="mx-5 pb-24">
           <View className='mb-2 mx-2'>
@@ -101,19 +114,21 @@ const score = () => {
             onEndReached={endReached}
             onEndReachedThreshold={0.5}
             numColumns={1}
+            initialNumToRender={10}
             ListEmptyComponent={
-              <Text className="text-white text-center mt-10">
-                Aucun score trouvé.
-              </Text>
+              loading && page === 1 ? (
+                <CustomActivityIndicator />
+              ) : (
+                <Text className="text-white text-center mt-10">
+                  Aucun score trouvé.
+                </Text>
+              )
             }
           />
         </View>
+      )}
+    </View>
+  );
+};
 
-      )
-      }
-    </View >
-
-  )
-}
-
-export default score
+export default Score;

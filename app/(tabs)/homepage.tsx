@@ -7,8 +7,9 @@ import { images } from "@/constants/images";
 import useFetch from "@/hooks/useFetch";
 import { Game } from "@/interfaces";
 import { fetchGames } from "@/services/api/game";
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useEffect, useState } from "react";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
 
 export default function Index() {
@@ -16,6 +17,7 @@ export default function Index() {
   const [page, setPage] = useState(1);
   const [gamesList, setGamesList] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const tabBarHeight = useBottomTabBarHeight();
 
   const {
@@ -28,12 +30,21 @@ export default function Index() {
     page: page
   }), true);
 
-  useEffect(() => {
-    setPage(1);
-    const debouncedSearch = setTimeout(async () => {
-      setHasMore(true);
+  useFocusEffect(
+    useCallback(() => {
+      setPage(1);
       setGamesList([]);
-      await loadGames();
+      setHasMore(true);
+      loadGames();
+    }, [])
+  );
+
+  useEffect(() => {
+    const debouncedSearch = setTimeout(() => {
+      setPage(1);
+      setGamesList([]);
+      setHasMore(true);
+      loadGames();
     }, 500);
     return () => clearTimeout(debouncedSearch);
   }, [searchQuery]);
@@ -56,8 +67,10 @@ export default function Index() {
   }, [games]);
 
   const endReached = () => {
-    if (hasMore && !gamesLoading) {
+    if (hasMore && !gamesLoading && !isFetching) {
+      setIsFetching(true);
       setPage(prevPage => prevPage + 1);
+      setIsFetching(false);
     }
   };
 
@@ -66,7 +79,6 @@ export default function Index() {
       <Image source={images.bg} className="absolute w-full z-0" />
       <View className="mb-3">
         <Image source={icons.logo} resizeMode='contain' className="w-12 h-16 p-3 mt-10 mb-5 mx-auto" />
-
         <SearchBar
           placeholder="Rechercher un jeu"
           value={searchQuery}
@@ -79,7 +91,7 @@ export default function Index() {
         renderItem={({ item }: { item: Game }) => <GameCard {...item} />}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={endReached}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.1}
         numColumns={2}
         columnWrapperStyle={{
           justifyContent: "flex-start",
@@ -87,12 +99,12 @@ export default function Index() {
           paddingRight: 5,
           marginBottom: 10
         }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: tabBarHeight, }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: tabBarHeight }}
         ListEmptyComponent={
           gamesLoading
-            ? () => <CustomActivityIndicator />
+            ? <CustomActivityIndicator />
             : gamesError
-              ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
+              ? <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
                 Error: {gamesError?.message}
               </Text>
               : <RenderEmptyGameComponent
