@@ -37,7 +37,7 @@ const LibraryGamesAutoComplete: React.FC<Props> = ({ onAdd }) => {
                         value={input}
                         onChangeText={setInput}
                         placeholderTextColor="#F9F6C0"
-                        className="bg-dark-100 text-yellow-100 rounded-full px-4"
+                        className="bg-dark-100 text-yellow-100 rounded-full px-4 py-4"
                     />
                     {input.length > 0 && (
                         <TouchableOpacity
@@ -52,7 +52,7 @@ const LibraryGamesAutoComplete: React.FC<Props> = ({ onAdd }) => {
                     {options.slice(0, 5).map((g) => (
 
                         <TouchableOpacity key={g.id} onPress={() => handleSelect(g)} >
-                            <Text className="text-yellow-100 px-2 py-1">{g.name}</Text>
+                            <Text className="text-yellow-100 px-2 py-3">{g.name}</Text>
                         </TouchableOpacity>
 
                     ))}
