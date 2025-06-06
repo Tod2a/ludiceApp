@@ -9,7 +9,7 @@ import { Game } from "@/interfaces";
 import { fetchGames } from "@/services/api/game";
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, Text, useWindowDimensions, View } from "react-native";
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,6 +19,9 @@ export default function Index() {
   const [isFetching, setIsFetching] = useState(false);
   const [firstLoadDone, setFirstLoadDone] = useState(false);
   const isLoadingRef = useRef(false);
+  const { width } = useWindowDimensions();
+  const logoWidth = Math.max(48, Math.min(120, width * 0.15));
+  const logoHeight = logoWidth * (16 / 12);
 
   const {
     data: games,
@@ -84,7 +87,14 @@ export default function Index() {
       <Image source={images.bg} className="absolute w-full z-0" />
 
       <View className="mb-3">
-        <Image source={icons.logo} resizeMode='contain' className="w-12 h-16 p-3 mt-10 mb-5 mx-auto" />
+
+        <Image
+          source={icons.logo}
+          resizeMode="contain"
+          className="p-3 mt-10 mb-5 mx-auto"
+          style={{ width: logoWidth, height: logoHeight }}
+        />
+
         <SearchBar
           placeholder="Rechercher un jeu"
           value={searchQuery}
