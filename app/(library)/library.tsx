@@ -9,7 +9,7 @@ import { Game } from '@/interfaces';
 import { fetchLibraryGames } from '@/services/api/library';
 import { useFocusEffect } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
 
 const Library = () => {
@@ -20,6 +20,7 @@ const Library = () => {
     const [hasMore, setHasMore] = useState(true);
     const [isFetching, setIsFetching] = useState(false);
     const [firstLoadDone, setFirstLoadDone] = useState(false);
+    const isLoadingRef = useRef(false);
 
     const {
         data: games,
@@ -62,11 +63,14 @@ const Library = () => {
     }, [games]);
 
     const resetAndLoad = () => {
+        if (isLoadingRef.current) return;
+        isLoadingRef.current = true;
         setPage(1);
         setGamesList([]);
         setHasMore(true);
         setIsFetching(true);
         loadGames();
+        setTimeout(() => { isLoadingRef.current = false }, 1000);
     };
 
     const endReached = () => {

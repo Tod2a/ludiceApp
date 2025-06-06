@@ -8,7 +8,7 @@ import useFetch from "@/hooks/useFetch";
 import { Game } from "@/interfaces";
 import { fetchGames } from "@/services/api/game";
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
 
 export default function Index() {
@@ -18,6 +18,7 @@ export default function Index() {
   const [hasMore, setHasMore] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const [firstLoadDone, setFirstLoadDone] = useState(false);
+  const isLoadingRef = useRef(false);
 
   const {
     data: games,
@@ -60,11 +61,14 @@ export default function Index() {
   }, [games]);
 
   const resetAndLoad = () => {
+    if (isLoadingRef.current) return;
+    isLoadingRef.current = true;
     setPage(1);
     setGamesList([]);
     setHasMore(true);
     setIsFetching(true);
     loadGames();
+    setTimeout(() => { isLoadingRef.current = false }, 1000);
   };
 
   const endReached = () => {
@@ -78,7 +82,7 @@ export default function Index() {
   return (
     <View className="flex-1 bg-primary">
       <Image source={images.bg} className="absolute w-full z-0" />
-      
+
       <View className="mb-3">
         <Image source={icons.logo} resizeMode='contain' className="w-12 h-16 p-3 mt-10 mb-5 mx-auto" />
         <SearchBar
