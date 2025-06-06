@@ -17,6 +17,7 @@ const Score = () => {
   const [scores, setScores] = useState<ScoreSheet[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
+  const [firstLoadDone, setFirstLoadDone] = useState(false);
   const router = useRouter();
 
   const {
@@ -24,25 +25,17 @@ const Score = () => {
     loading,
     error,
     refetch: loadScores,
-  } = useFetch(() => fetchScore(searchGame?.id, page), true);
+  } = useFetch(() => fetchScore(searchGame?.id, page), false);
 
   useFocusEffect(
     useCallback(() => {
-      setPage(1);
-      setScores([]);
-      setHasMore(true);
-      loadScores();
+      resetAndLoad();
     }, [searchGame])
   );
 
   useEffect(() => {
-    if (page !== 1) {
-      const fetchData = async () => {
-        setIsFetching(true);
-        await loadScores();
-        setIsFetching(false);
-      };
-      fetchData();
+    if (hasMore) {
+      loadScores();
     }
   }, [page]);
 
@@ -54,12 +47,16 @@ const Score = () => {
         return page === 1 ? (scheets.data as ScoreSheet[]) : [...prevScores, ...newUniqueScores];
       });
       setHasMore(scheets.current_page < scheets.last_page);
+      setFirstLoadDone(true);
+      setIsFetching(false);
     }
   }, [scheets]);
 
   const endReached = () => {
+    if (!firstLoadDone) return;
     if (hasMore && !loading && !isFetching) {
-      setPage(prevPage => prevPage + 1);
+      setIsFetching(true);
+      setPage(page + 1);
     }
   };
 
@@ -72,9 +69,15 @@ const Score = () => {
 
   const clearResearch = () => {
     setSearchGame(null);
+    resetAndLoad();
+  };
+
+  const resetAndLoad = () => {
     setPage(1);
     setScores([]);
     setHasMore(true);
+    setIsFetching(true);
+    loadScores();
   };
 
   return (
@@ -85,48 +88,41 @@ const Score = () => {
         Vos scores enregistrés
       </Text>
 
-      {loading && page === 1 ? (
-        <CustomActivityIndicator />
-      ) : error ? (
-        <Text className='text-white'>Erreur serveur</Text>
-      ) : (
-        <View className="mx-5 pb-24">
-          <View className='mb-2 mx-2'>
-            <LinkButton onPress={() => { router.push("/game-prep/game") }} text='Enregistrer un score' />
-          </View>
-          <View className='pb-4'>
-            <LibraryGamesAutoComplete onAdd={onAdd} />
-            {searchGame && (
-              <Text
-                onPress={clearResearch}
-                className="text-yellow-100 text-right mt-2 underline"
-              >
-                Annuler la recherche
-              </Text>
-            )}
-          </View>
+      <View className='mb-2 mx-2'>
+        <LinkButton onPress={() => { router.push("/game-prep/game") }} text='Enregistrer un score' />
+      </View>
 
-          <FlatList
-            data={scores}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <ScoreCard sheet={item} />}
-            contentContainerStyle={{ padding: 2, paddingBottom: 120 }}
-            onEndReached={endReached}
-            onEndReachedThreshold={0.5}
-            numColumns={1}
-            initialNumToRender={10}
-            ListEmptyComponent={
-              loading && page === 1 ? (
-                <CustomActivityIndicator />
-              ) : (
-                <Text className="text-white text-center mt-10">
-                  Aucun score trouvé.
-                </Text>
-              )
-            }
-          />
-        </View>
-      )}
+      <View className='pb-4'>
+        <LibraryGamesAutoComplete onAdd={onAdd} />
+        {searchGame && (
+          <Text
+            onPress={clearResearch}
+            className="text-yellow-100 text-right mt-2 underline"
+          >
+            Annuler la recherche
+          </Text>
+        )}
+      </View>
+
+      <FlatList
+        data={scores}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <ScoreCard sheet={item} />}
+        contentContainerStyle={{ padding: 2, paddingBottom: 60 }}
+        onEndReached={endReached}
+        onEndReachedThreshold={0.5}
+        numColumns={1}
+        initialNumToRender={10}
+        ListEmptyComponent={
+          loading && page === 1 ? (
+            <CustomActivityIndicator />
+          ) : (
+            <Text className="text-white text-center mt-10">
+              Aucun score trouvé.
+            </Text>
+          )
+        }
+      />
     </View>
   );
 };
