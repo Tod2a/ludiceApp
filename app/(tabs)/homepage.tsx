@@ -17,6 +17,7 @@ export default function Index() {
   const [gamesList, setGamesList] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
+  const [firstLoadDone, setFirstLoadDone] = useState(false);
 
   const {
     data: games,
@@ -26,29 +27,21 @@ export default function Index() {
   } = useFetch(() => fetchGames({
     query: searchQuery,
     page: page
-  }), true);
+  }), false);
 
-  useFocusEffect(
-    useCallback(() => {
-      setPage(1);
-      setGamesList([]);
-      setHasMore(true);
-      loadGames();
-    }, [])
-  );
+  useFocusEffect(useCallback(() => {
+    resetAndLoad();
+  }, []));
 
   useEffect(() => {
-    const debouncedSearch = setTimeout(() => {
-      setPage(1);
-      setGamesList([]);
-      setHasMore(true);
-      loadGames();
+    const timeout = setTimeout(() => {
+      resetAndLoad();
     }, 500);
-    return () => clearTimeout(debouncedSearch);
+    return () => clearTimeout(timeout);
   }, [searchQuery]);
 
   useEffect(() => {
-    if (page !== 1) {
+    if (hasMore) {
       loadGames();
     }
   }, [page]);
@@ -61,14 +54,24 @@ export default function Index() {
         return page === 1 ? (games.data as Game[]) : [...prevGames, ...newUniqueGames];
       });
       setHasMore(games.current_page < games.last_page);
+      setFirstLoadDone(true);
+      setIsFetching(false);
     }
   }, [games]);
 
+  const resetAndLoad = () => {
+    setPage(1);
+    setGamesList([]);
+    setHasMore(true);
+    setIsFetching(true);
+    loadGames();
+  };
+
   const endReached = () => {
+    if (!firstLoadDone) return;
     if (hasMore && !gamesLoading && !isFetching) {
       setIsFetching(true);
-      setPage(prevPage => prevPage + 1);
-      setIsFetching(false);
+      setPage(page + 1);
     }
   };
 
@@ -83,6 +86,7 @@ export default function Index() {
           onChangeText={(text: string) => setSearchQuery(text)}
         />
       </View>
+
       <FlatList
         className="my-5"
         data={gamesList}
@@ -97,9 +101,9 @@ export default function Index() {
           paddingRight: 5,
           marginBottom: 10
         }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 30 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 50 }}
         ListEmptyComponent={
-          gamesLoading
+          gamesLoading && gamesList.length < 1
             ? <CustomActivityIndicator />
             : gamesError
               ? <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
