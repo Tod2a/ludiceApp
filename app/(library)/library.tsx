@@ -81,6 +81,10 @@ const Library = () => {
         }
     };
 
+    const handleRemoveGame = (id: number) => {
+        setGamesList(prevGames => prevGames.filter(game => game.id !== id));
+    };
+
     return (
         <View className='flex-1 bg-primary'>
             <Image source={images.bg} className="absolute w-full z-0" />
@@ -96,7 +100,10 @@ const Library = () => {
             <FlatList
                 className="my-5"
                 data={gamesList}
-                renderItem={({ item }: { item: Game }) => <LibraryCard {...item} />}
+                renderItem={({ item }: { item: Game }) => <LibraryCard
+                    {...item}
+                    onRemove={() => handleRemoveGame(item.id)}
+                />}
                 keyExtractor={(item) => item.id.toString()}
                 onEndReached={endReached}
                 onEndReachedThreshold={0.1}
