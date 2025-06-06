@@ -1,17 +1,22 @@
 import * as NavigationBar from "expo-navigation-bar";
-import { Stack } from "expo-router";
+import { Stack, useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { StatusBar } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import Toast from 'react-native-toast-message';
 import "./globals.css";
 
 export default function RootLayout() {
-  useEffect(() => {
-    NavigationBar.setVisibilityAsync("hidden");
-    //NavigationBar.setBehaviorAsync("immersive-sticky");
+  const navigation = useNavigation();
 
-    StatusBar.setHidden(true, 'fade');
-  }, []);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      StatusBar.setHidden(true, 'fade');
+      if (Platform.OS === "android") {
+        NavigationBar.setVisibilityAsync("hidden");
+      }
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <>

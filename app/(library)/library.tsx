@@ -89,7 +89,7 @@ const Library = () => {
         <View className='flex-1 bg-primary'>
             <Image source={images.bg} className="absolute w-full z-0" />
             <View className='mb-3'>
-                <Text className="text-3xl font-bold text-white text-center mt-8 mb-6">Votre Ludothèque</Text>
+                <Text className="text-3xl font-bold text-white text-center mt-10 mb-6">Votre Ludothèque</Text>
                 <SearchBar
                     placeholder="Rechercher un jeu"
                     value={searchQuery}
