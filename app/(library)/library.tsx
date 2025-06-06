@@ -19,6 +19,7 @@ const Library = () => {
     const [gamesList, setGamesList] = useState<Game[]>([]);
     const [hasMore, setHasMore] = useState(true);
     const [isFetching, setIsFetching] = useState(false);
+    const [firstLoadDone, setFirstLoadDone] = useState(false);
 
     const {
         data: games,
@@ -28,29 +29,21 @@ const Library = () => {
     } = useFetch(() => fetchLibraryGames({
         query: searchQuery,
         page: page
-    }), true);
+    }), false);
 
-    useFocusEffect(
-        useCallback(() => {
-            setPage(1);
-            setGamesList([]);
-            setHasMore(true);
-            loadGames();
-        }, [])
-    );
+    useFocusEffect(useCallback(() => {
+        resetAndLoad();
+    }, []));
 
     useEffect(() => {
         const debouncedSearch = setTimeout(() => {
-            setPage(1);
-            setGamesList([]);
-            setHasMore(true);
-            loadGames();
+            resetAndLoad();
         }, 500);
         return () => clearTimeout(debouncedSearch);
     }, [searchQuery]);
 
     useEffect(() => {
-        if (page !== 1) {
+        if (hasMore) {
             loadGames();
         }
     }, [page]);
@@ -63,14 +56,24 @@ const Library = () => {
                 return page === 1 ? (games.library.data as Game[]) : [...prevGames, ...newUniqueGames];
             });
             setHasMore(games.library.current_page < games.library.last_page);
+            setFirstLoadDone(true);
+            setIsFetching(false);
         }
     }, [games]);
 
+    const resetAndLoad = () => {
+        setPage(1);
+        setGamesList([]);
+        setHasMore(true);
+        setIsFetching(true);
+        loadGames();
+    };
+
     const endReached = () => {
+        if (!firstLoadDone) return;
         if (hasMore && !loading && !isFetching) {
             setIsFetching(true);
-            setPage(prev => prev + 1);
-            setIsFetching(false);
+            setPage(page + 1);
         }
     };
 
