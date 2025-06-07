@@ -43,7 +43,7 @@ const MechanicsAutocomplete: React.FC<Props> = ({ selected, onAdd, onRemove, res
                         value={input}
                         onChangeText={setInput}
                         placeholderTextColor="#F9F6C0"
-                        className="bg-dark-100 text-yellow-100"
+                        className="bg-dark-100 text-yellow-100 py-4"
                     />
                     {input.length > 0 && (
                         <TouchableOpacity

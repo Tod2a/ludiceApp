@@ -7,16 +7,21 @@ import { images } from "@/constants/images";
 import useFetch from "@/hooks/useFetch";
 import { Game } from "@/interfaces";
 import { fetchGames } from "@/services/api/game";
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useEffect, useState } from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FlatList, Image, Text, useWindowDimensions, View } from "react-native";
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [gamesList, setGamesList] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const tabBarHeight = useBottomTabBarHeight();
+  const [isFetching, setIsFetching] = useState(false);
+  const [firstLoadDone, setFirstLoadDone] = useState(false);
+  const isLoadingRef = useRef(false);
+  const { width } = useWindowDimensions();
+  const logoWidth = Math.max(48, Math.min(120, width * 0.15));
+  const logoHeight = logoWidth * (16 / 12);
 
   const {
     data: games,
@@ -26,20 +31,21 @@ export default function Index() {
   } = useFetch(() => fetchGames({
     query: searchQuery,
     page: page
-  }), true);
+  }), false);
+
+  useFocusEffect(useCallback(() => {
+    resetAndLoad();
+  }, []));
 
   useEffect(() => {
-    setPage(1);
-    const debouncedSearch = setTimeout(async () => {
-      setHasMore(true);
-      setGamesList([]);
-      await loadGames();
+    const timeout = setTimeout(() => {
+      resetAndLoad();
     }, 500);
-    return () => clearTimeout(debouncedSearch);
+    return () => clearTimeout(timeout);
   }, [searchQuery]);
 
   useEffect(() => {
-    if (page !== 1) {
+    if (hasMore) {
       loadGames();
     }
   }, [page]);
@@ -52,20 +58,42 @@ export default function Index() {
         return page === 1 ? (games.data as Game[]) : [...prevGames, ...newUniqueGames];
       });
       setHasMore(games.current_page < games.last_page);
+      setFirstLoadDone(true);
+      setIsFetching(false);
     }
   }, [games]);
 
+  const resetAndLoad = () => {
+    if (isLoadingRef.current) return;
+    isLoadingRef.current = true;
+    setPage(1);
+    setGamesList([]);
+    setHasMore(true);
+    setIsFetching(true);
+    loadGames();
+    setTimeout(() => { isLoadingRef.current = false }, 1000);
+  };
+
   const endReached = () => {
-    if (hasMore && !gamesLoading) {
-      setPage(prevPage => prevPage + 1);
+    if (!firstLoadDone) return;
+    if (hasMore && !gamesLoading && !isFetching) {
+      setIsFetching(true);
+      setPage(page + 1);
     }
   };
 
   return (
     <View className="flex-1 bg-primary">
       <Image source={images.bg} className="absolute w-full z-0" />
+
       <View className="mb-3">
-        <Image source={icons.logo} resizeMode='contain' className="w-12 h-16 p-3 mt-10 mb-5 mx-auto" />
+
+        <Image
+          source={icons.logo}
+          resizeMode="contain"
+          className="p-3 mt-10 mb-5 mx-auto"
+          style={{ width: logoWidth, height: logoHeight }}
+        />
 
         <SearchBar
           placeholder="Rechercher un jeu"
@@ -73,13 +101,14 @@ export default function Index() {
           onChangeText={(text: string) => setSearchQuery(text)}
         />
       </View>
+
       <FlatList
         className="my-5"
         data={gamesList}
         renderItem={({ item }: { item: Game }) => <GameCard {...item} />}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={endReached}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.1}
         numColumns={2}
         columnWrapperStyle={{
           justifyContent: "flex-start",
@@ -87,12 +116,12 @@ export default function Index() {
           paddingRight: 5,
           marginBottom: 10
         }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: tabBarHeight, }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 50 }}
         ListEmptyComponent={
-          gamesLoading
-            ? () => <CustomActivityIndicator />
+          gamesLoading && gamesList.length < 1
+            ? <CustomActivityIndicator />
             : gamesError
-              ? () => <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
+              ? <Text className="text-white font-bold text-lg mt-5 mb-3 mx-auto">
                 Error: {gamesError?.message}
               </Text>
               : <RenderEmptyGameComponent

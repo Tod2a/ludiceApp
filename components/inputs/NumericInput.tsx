@@ -17,7 +17,7 @@ const NumericInput = ({ placeholder, value, onChangeText }: Props) => {
                 onChangeText={onChangeText}
                 keyboardType="numeric"
                 placeholderTextColor="#F9F6C0"
-                className='bg-dark-100 mb-2 text-yellow-100'
+                className='bg-dark-100 mb-2 text-yellow-100 py-4'
             />
         </View>
     )
