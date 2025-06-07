@@ -15,7 +15,7 @@ const PrimaryTextInput = ({ placeholder, value, onChangeText }: Props) => {
                 placeholder={placeholder}
                 value={value}
                 onChangeText={onChangeText}
-                className='bg-yellow-100 mb-2'
+                className='bg-yellow-100 mb-2 py-4'
             />
         </View>
     )

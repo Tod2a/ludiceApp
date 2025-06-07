@@ -152,12 +152,6 @@ Once running, you’ll be able to open the app in:
 
 ---
 
-## 🪪 License
-
-This project is open-source and licensed under the [MIT License](https://opensource.org/licenses/MIT).
-
----
-
 <p align="center">
   Built with ❤️ 
 </p>
