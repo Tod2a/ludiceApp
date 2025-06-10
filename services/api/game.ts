@@ -36,7 +36,27 @@ export const fetchGamesDetails = async (gameId: string): Promise<GameDetail> => 
 
         return data;
     } catch (error) {
-        console.log(error);
+        throw error;
+    }
+}
+
+export const fetchGamesEAN = async (ean: string) => {
+    const API_CONFIG = await get_API_CONFIG();
+    const endpoint = `${API_CONFIG.BASE_URL}game/ean/${ean}`;
+    try {
+        const response = await fetch(endpoint, {
+            method: 'GET',
+            headers: API_CONFIG.headers,
+        })
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch games detail ${endpoint}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        return data.id;
+    } catch (error) {
         throw error;
     }
 }

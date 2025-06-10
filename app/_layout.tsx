@@ -32,6 +32,10 @@ export default function RootLayout() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="(scan)"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="games/[id]"
           options={{ headerShown: false }}
         />
