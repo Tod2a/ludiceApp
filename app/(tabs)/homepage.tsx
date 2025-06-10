@@ -8,8 +8,9 @@ import useFetch from "@/hooks/useFetch";
 import { Game } from "@/interfaces";
 import { fetchGames } from "@/services/api/game";
 import { useFocusEffect } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FlatList, Image, Text, useWindowDimensions, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,6 +23,7 @@ export default function Index() {
   const { width } = useWindowDimensions();
   const logoWidth = Math.max(48, Math.min(120, width * 0.15));
   const logoHeight = logoWidth * (16 / 12);
+  const router = useRouter();
 
   const {
     data: games,
@@ -82,6 +84,10 @@ export default function Index() {
     }
   };
 
+  const onScanPress = () => {
+    router.push("/scan");
+  };
+
   return (
     <View className="flex-1 bg-primary">
       <Image source={images.bg} className="absolute w-full z-0" />
@@ -95,11 +101,19 @@ export default function Index() {
           style={{ width: logoWidth, height: logoHeight }}
         />
 
-        <SearchBar
-          placeholder="Rechercher un jeu"
-          value={searchQuery}
-          onChangeText={(text: string) => setSearchQuery(text)}
-        />
+        <View className="mb-3 flex-row items-center px-5">
+          <View style={{ flex: 1 }}>
+            <SearchBar
+              placeholder="Rechercher un jeu"
+              value={searchQuery}
+              onChangeText={(text: string) => setSearchQuery(text)}
+            />
+          </View>
+
+          <TouchableOpacity onPress={onScanPress} className="ml-2 bg-dark-200 rounded-full px-5 py-5" >
+            <Image source={icons.picture} tintColor="#C1BA3E" className="w-[30px] h-[30px]" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <FlatList
